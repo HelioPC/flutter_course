@@ -80,8 +80,17 @@ class _QuizAppState extends State<QuizApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
+      ),
       home: Scaffold(
         appBar: AppBar(
+          elevation: 6,
+          backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
           title: const Text('Quiz 2023'),
         ),
         body: hasSelectedQuestion
