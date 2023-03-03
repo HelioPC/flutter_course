@@ -86,6 +86,8 @@ class _QuizAppState extends State<QuizApp> {
           seedColor: Colors.blue,
         ),
       ),
+      darkTheme: ThemeData.dark(useMaterial3: true),
+      themeMode: ThemeMode.system,
       home: Scaffold(
         appBar: AppBar(
           elevation: 6,
