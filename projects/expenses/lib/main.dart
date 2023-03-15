@@ -11,7 +11,6 @@ class ExpensesApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: true,
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.purple,
           foregroundColor: Colors.white,
