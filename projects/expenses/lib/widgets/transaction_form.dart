@@ -8,6 +8,17 @@ class TransactionForm extends StatelessWidget {
 
   final void Function(String, double) addTransaction;
 
+  _addTransaction() {
+    final title = titleController.text;
+    final value = double.tryParse(valueController.text) ?? 0;
+
+    if (title.isEmpty || value <= 0) {
+      return;
+    }
+
+    addTransaction(title, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -34,6 +45,8 @@ class TransactionForm extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: valueController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.purple)),
@@ -53,11 +66,7 @@ class TransactionForm extends StatelessWidget {
                       Colors.purple,
                     ),
                   ),
-                  onPressed: () {
-                    final title = titleController.text;
-                    final value = double.tryParse(valueController.text) ?? 0;
-                    addTransaction(title, value);
-                  },
+                  onPressed: _addTransaction,
                   child: const Text('New transaction'),
                 ),
               ],
