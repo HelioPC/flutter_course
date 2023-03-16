@@ -26,23 +26,25 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Expenses App'),
       ),
-      body: const Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            child: Card(
-              color: Colors.purple,
-              elevation: 5,
-              child: Text(
-                'Graph',
-                style: TextStyle(
-                  color: Colors.white,
+      body: const SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              child: Card(
+                color: Colors.purple,
+                elevation: 5,
+                child: Text(
+                  'Graph',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
-          ),
-          UserTransactions(),
-        ],
+            UserTransactions(),
+          ],
+        ),
       ),
     );
   }
