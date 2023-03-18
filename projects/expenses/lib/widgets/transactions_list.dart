@@ -12,8 +12,8 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
+    return SizedBox(
+      height: 400,
       child: ListView.builder(
         itemCount: _transactions.length,
         itemBuilder: (context, index) {
@@ -28,15 +28,15 @@ class TransactionsList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.purple,
+                      color: Theme.of(context).primaryColor,
                       width: 2,
                     ),
                   ),
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     '€ ${_transactions[index].value}',
-                    style: const TextStyle(
-                      color: Colors.purple,
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColor,
                     ),
                   ),
                 ),

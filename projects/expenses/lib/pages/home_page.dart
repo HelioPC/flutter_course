@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:expenses/models/transaction.dart';
 import 'package:expenses/widgets/transaction_form.dart';
 import 'package:expenses/widgets/transactions_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -63,11 +62,11 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(
+            SizedBox(
               child: Card(
-                color: Colors.purple,
+                color: Theme.of(context).primaryColor,
                 elevation: 5,
-                child: Text(
+                child: const Text(
                   'Graph',
                   style: TextStyle(
                     color: Colors.white,
@@ -81,7 +80,6 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _showTransactionFormModal,
-        backgroundColor: Colors.purple,
         child: const Icon(Icons.add),
       ),
     );

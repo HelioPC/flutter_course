@@ -38,11 +38,12 @@ class _TransactionFormState extends State<TransactionForm> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: titleController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple)),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor)),
                   hintText: 'Title',
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0)),
                   ),
                 ),
@@ -54,11 +55,12 @@ class _TransactionFormState extends State<TransactionForm> {
                 controller: valueController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.purple)),
+                      borderSide:
+                          BorderSide(color: Theme.of(context).primaryColor)),
                   hintText: 'Value (\$)',
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(0)),
                   ),
                 ),
@@ -70,7 +72,7 @@ class _TransactionFormState extends State<TransactionForm> {
                 ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      Colors.purple,
+                      Theme.of(context).primaryColor,
                     ),
                   ),
                   onPressed: _addTransaction,
