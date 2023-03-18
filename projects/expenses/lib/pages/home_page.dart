@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   _showTransactionFormModal() {
     showModalBottomSheet(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (context) {
         return TransactionForm(addTransaction: _addTransaction);

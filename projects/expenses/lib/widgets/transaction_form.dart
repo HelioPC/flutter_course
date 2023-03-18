@@ -28,60 +28,61 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor)),
-                  hintText: 'Title',
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                  ),
+    return Container(
+      margin: const EdgeInsets.only(
+        top: 30,
+        left: 20,
+        right: 20,
+      ),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: titleController,
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor)),
+                hintText: 'Title',
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: valueController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Theme.of(context).primaryColor)),
-                  hintText: 'Value (\$)',
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(0)),
-                  ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: valueController,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderSide:
+                        BorderSide(color: Theme.of(context).primaryColor)),
+                hintText: 'Value (\$)',
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(0)),
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor,
-                    ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor,
                   ),
-                  onPressed: _addTransaction,
-                  child: const Text('New transaction'),
                 ),
-              ],
-            )
-          ],
-        ),
+                onPressed: _addTransaction,
+                child: const Text('New transaction'),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
