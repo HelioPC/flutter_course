@@ -14,53 +14,60 @@ class TransactionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400,
-      child: ListView.builder(
-        itemCount: _transactions.length,
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 5,
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Theme.of(context).primaryColor,
-                      width: 2,
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    '€ ${_transactions[index].value}',
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _transactions[index].title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      DateFormat('dd MMM y').format(_transactions[index].date),
-                      style: TextStyle(
-                        color: Colors.grey[800],
+      child: _transactions.isEmpty
+          ? const Center(
+              child: Text('No Transactions'),
+            )
+          : ListView.builder(
+              itemCount: _transactions.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 5,
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 2,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          '€ ${_transactions[index].value}',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _transactions[index].title,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            DateFormat('dd MMM y')
+                                .format(_transactions[index].date),
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }
