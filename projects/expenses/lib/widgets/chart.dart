@@ -43,9 +43,12 @@ class Chart extends StatelessWidget {
               .map((e) => Flexible(
                     fit: FlexFit.tight,
                     child: ChartBar(
-                        label: e['day'] as String,
-                        value: e['value'] as double,
-                        percentage: (e['value'] as double) / _totalValue),
+                      label: e['day'] as String,
+                      value: e['value'] as double,
+                      percentage: _totalValue > 0
+                          ? (e['value'] as double) / _totalValue
+                          : 0,
+                    ),
                   ))
               .toList(),
         ),

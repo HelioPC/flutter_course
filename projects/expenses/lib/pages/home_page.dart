@@ -16,12 +16,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [];
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -57,8 +57,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (_recentsTransactions.isNotEmpty)
-              Chart(recentsTransactions: _recentsTransactions),
+            Chart(recentsTransactions: _recentsTransactions),
             TransactionsList(transactions: _transactions),
           ],
         ),
