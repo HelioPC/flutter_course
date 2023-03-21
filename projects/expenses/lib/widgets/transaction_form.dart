@@ -21,7 +21,7 @@ class _TransactionFormState extends State<TransactionForm> {
     final value =
         double.tryParse(_valueController.text.replaceAll(',', '.')) ?? 0;
 
-    if (title.isEmpty || value <= 0 || _selectedDate == null) {
+    if (title.isEmpty || value <= 0) {
       return;
     }
 
@@ -44,13 +44,15 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
         top: 30,
         left: 20,
         right: 20,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -89,11 +91,7 @@ class _TransactionFormState extends State<TransactionForm> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(
-                    _selectedDate == null
-                        ? 'Nenhuma data selecionada'
-                        : DateFormat('dd/MM/y').format(_selectedDate),
-                  ),
+                  child: Text(DateFormat('dd/MM/y').format(_selectedDate)),
                 ),
                 TextButton(
                   onPressed: _showDatePicker,
@@ -118,6 +116,9 @@ class _TransactionFormState extends State<TransactionForm> {
                 child: const Text('New transaction'),
               ),
             ],
+          ),
+          const SizedBox(
+            height: 50,
           )
         ],
       ),

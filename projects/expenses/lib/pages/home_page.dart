@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   _showTransactionFormModal() {
     showModalBottomSheet(
+      isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (context) {
@@ -49,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   List<Transaction> get _recentsTransactions {
     return _transactions.where((t) {
-      return t.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+      return t.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
     }).toList();
   }
 
