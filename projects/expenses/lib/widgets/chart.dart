@@ -24,7 +24,7 @@ class Chart extends StatelessWidget {
         'day': DateFormat.E().format(weekDay)[0],
         'value': total,
       };
-    });
+    }).reversed.toList();
   }
 
   double get _totalValue {
