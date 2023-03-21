@@ -23,6 +23,40 @@ class TransactionsList extends StatelessWidget {
               itemBuilder: (context, index) {
                 return Card(
                   elevation: 5,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: FittedBox(
+                          child:
+                              Text('\$${_transactions.elementAt(index).value}'),
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      _transactions.elementAt(index).title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      DateFormat('dd MMM y').format(_transactions[index].date),
+                    ),
+                  ),
+                );
+              },
+            ),
+    );
+  }
+}
+
+/**
+ * Card(
+                  elevation: 5,
                   child: Row(
                     children: [
                       Container(
@@ -65,9 +99,5 @@ class TransactionsList extends StatelessWidget {
                       ),
                     ],
                   ),
-                );
-              },
-            ),
-    );
-  }
-}
+                )
+ */
