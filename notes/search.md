@@ -3,3 +3,7 @@
 - ```txt
     MediaQuery.of(context).textScaleFactor
     ```
+
+- ```txt
+    SystemChrome.setPreferredOrientations
+    ```

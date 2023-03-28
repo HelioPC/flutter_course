@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [];
+  bool _showCart = true;
 
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
@@ -56,6 +57,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: const Text('Expenses App'),
     );
@@ -70,16 +74,34 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(
-                height: availableHeight * .25,
-                child: Chart(recentsTransactions: _recentsTransactions)),
-            SizedBox(
-              height: availableHeight * .75,
-              child: TransactionsList(
-                transactions: _transactions,
-                removeTransaction: _deleteTransaction,
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Show graph'),
+                  Switch(
+                    value: _showCart,
+                    onChanged: (value) {
+                      setState(() {
+                        _showCart = value;
+                      });
+                    },
+                  ),
+                ],
               ),
-            ),
+            if (_showCart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? .70 : .25),
+                child: Chart(recentsTransactions: _recentsTransactions),
+              ),
+            if (!_showCart || !isLandscape)
+              SizedBox(
+                height: availableHeight * .75,
+                child: TransactionsList(
+                  transactions: _transactions,
+                  removeTransaction: _deleteTransaction,
+                ),
+              ),
           ],
         ),
       ),
