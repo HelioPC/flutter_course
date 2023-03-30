@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:expenses/models/transaction.dart';
@@ -83,26 +84,19 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (isLandscape)
-              /*Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Show graph'),
-                  Switch(
-                    value: _showCart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showCart = value;
-                      });
-                    },
-                  ),
-                ],
-              ),*/
-              if (_showCart || !isLandscape)
-                SizedBox(
-                  height: availableHeight * (isLandscape ? .70 : .25),
-                  child: Chart(recentsTransactions: _recentsTransactions),
-                ),
+            Switch.adaptive(
+              value: _showCart,
+              onChanged: (value) {
+                setState(() {
+                  _showCart = value;
+                });
+              },
+            ),
+            if (_showCart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? .70 : .25),
+                child: Chart(recentsTransactions: _recentsTransactions),
+              ),
             if (!_showCart || !isLandscape)
               SizedBox(
                 height: availableHeight * (isLandscape ? 1 : .70),
@@ -114,10 +108,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _showTransactionFormModal,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? null
+          : FloatingActionButton(
+              onPressed: _showTransactionFormModal,
+              child: const Icon(Icons.add),
+            ),
     );
   }
 }
