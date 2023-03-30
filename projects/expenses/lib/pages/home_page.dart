@@ -62,6 +62,15 @@ class _HomePageState extends State<HomePage> {
 
     final appBar = AppBar(
       title: const Text('Expenses App'),
+      actions: [
+        if (isLandscape)
+          IconButton(
+            onPressed: () => setState(() {
+              _showCart = !_showCart;
+            }),
+            icon: Icon(_showCart ? Icons.list : Icons.pie_chart),
+          ),
+      ],
     );
 
     final availableHeight = MediaQuery.of(context).size.height -
@@ -75,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (isLandscape)
-              Row(
+              /*Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text('Show graph'),
@@ -88,12 +97,12 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ],
-              ),
-            if (_showCart || !isLandscape)
-              SizedBox(
-                height: availableHeight * (isLandscape ? .70 : .25),
-                child: Chart(recentsTransactions: _recentsTransactions),
-              ),
+              ),*/
+              if (_showCart || !isLandscape)
+                SizedBox(
+                  height: availableHeight * (isLandscape ? .70 : .25),
+                  child: Chart(recentsTransactions: _recentsTransactions),
+                ),
             if (!_showCart || !isLandscape)
               SizedBox(
                 height: availableHeight * .75,
