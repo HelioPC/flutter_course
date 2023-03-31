@@ -33,6 +33,8 @@ class TransactionsList extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
                 child: ListTile(
                   leading: CircleAvatar(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
                     radius: 30,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 4),

@@ -6,7 +6,10 @@ main() => runApp(ExpensesApp());
 class ExpensesApp extends StatelessWidget {
   ExpensesApp({super.key});
 
-  final ThemeData theme = ThemeData();
+  final ThemeData theme = ThemeData(
+    primarySwatch: Colors.purple,
+    fontFamily: 'Poppins',
+  );
 
   @override
   Widget build(BuildContext context) {

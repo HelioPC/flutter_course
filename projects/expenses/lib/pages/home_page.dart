@@ -105,6 +105,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Switch.adaptive(
+              activeColor: Theme.of(context).primaryColor,
               value: _showCart,
               onChanged: (value) {
                 setState(() {
