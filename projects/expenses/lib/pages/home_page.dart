@@ -57,22 +57,36 @@ class _HomePageState extends State<HomePage> {
     }).toList();
   }
 
+  Widget _getIconButton(IconData icon, Function() fn) {
+    return Platform.isIOS
+        ? GestureDetector(
+            onTap: fn,
+            child: Icon(icon),
+          )
+        : IconButton(
+            onPressed: fn,
+            icon: Icon(icon),
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    // TODO: Fix appbar (cupertino and android)
     final appBarActions = [
-      IconButton(
-        onPressed: () => setState(() {
-          _showCart = !_showCart;
-        }),
-        icon: Icon(_showCart ? Icons.list : Icons.pie_chart),
-      ),
-      IconButton(
-        onPressed: _showTransactionFormModal,
-        icon: Icon(_showCart ? Icons.list : Icons.add),
+      if (isLandscape)
+        _getIconButton(
+          _showCart
+              ? (Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list)
+              : (Platform.isIOS ? CupertinoIcons.chart_pie : Icons.pie_chart),
+          () => setState(() {
+            _showCart = !_showCart;
+          }),
+        ),
+      _getIconButton(
+        Platform.isIOS ? CupertinoIcons.add : Icons.add,
+        _showTransactionFormModal,
       ),
     ];
 
@@ -85,32 +99,34 @@ class _HomePageState extends State<HomePage> {
         appBar.preferredSize.height -
         mediaQuery.padding.top;
 
-    final page = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Switch.adaptive(
-            value: _showCart,
-            onChanged: (value) {
-              setState(() {
-                _showCart = value;
-              });
-            },
-          ),
-          if (_showCart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? .70 : .25),
-              child: Chart(recentsTransactions: _recentsTransactions),
+    final page = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Switch.adaptive(
+              value: _showCart,
+              onChanged: (value) {
+                setState(() {
+                  _showCart = value;
+                });
+              },
             ),
-          if (!_showCart || !isLandscape)
-            SizedBox(
-              height: availableHeight * (isLandscape ? 1 : .70),
-              child: TransactionsList(
-                transactions: _transactions,
-                removeTransaction: _deleteTransaction,
+            if (_showCart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? .70 : .25),
+                child: Chart(recentsTransactions: _recentsTransactions),
               ),
-            ),
-        ],
+            if (!_showCart || !isLandscape)
+              SizedBox(
+                height: availableHeight * (isLandscape ? 1 : .70),
+                child: TransactionsList(
+                  transactions: _transactions,
+                  removeTransaction: _deleteTransaction,
+                ),
+              ),
+          ],
+        ),
       ),
     );
 
@@ -119,6 +135,7 @@ class _HomePageState extends State<HomePage> {
             navigationBar: CupertinoNavigationBar(
               middle: const Text('Expenses App'),
               trailing: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: appBarActions,
               ),
             ),

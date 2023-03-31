@@ -15,8 +15,15 @@ class TransactionsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _transactions.isEmpty
-        ? const Center(
-            child: Text('No Transactions'),
+        ? LayoutBuilder(
+            builder: (context, constraints) {
+              return Center(
+                child: Text(
+                  'No Transactions',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              );
+            },
           )
         : ListView.builder(
             itemCount: _transactions.length,
