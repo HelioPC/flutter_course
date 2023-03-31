@@ -1,4 +1,5 @@
 import 'package:expenses/widgets/adaptative_button.dart';
+import 'package:expenses/widgets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -55,37 +56,16 @@ class _TransactionFormState extends State<TransactionForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor)),
-                hintText: 'Title',
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(0)),
-                ),
-              ),
-            ),
+          AdaptativeTextfield(
+            controller: _titleController,
+            label: 'Title',
+            onSubmitted: (_) => _addTransaction(),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _valueController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
-              decoration: InputDecoration(
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Theme.of(context).primaryColor)),
-                hintText: 'Value (\$)',
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(0)),
-                ),
-              ),
-            ),
+          AdaptativeTextfield(
+            controller: _valueController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            label: 'Value (\$)',
+            onSubmitted: (_) => _addTransaction(),
           ),
           SizedBox(
             height: 70,
