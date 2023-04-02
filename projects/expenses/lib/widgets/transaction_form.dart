@@ -2,7 +2,6 @@ import 'package:expenses/widgets/adaptative_button.dart';
 import 'package:expenses/widgets/adaptative_date_picker.dart';
 import 'package:expenses/widgets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   const TransactionForm({super.key, required this.addTransaction});
@@ -29,20 +28,6 @@ class _TransactionFormState extends State<TransactionForm> {
     }
 
     widget.addTransaction(title, value, _selectedDate);
-  }
-
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    ).then((value) {
-      if (value == null) return;
-      setState(() {
-        _selectedDate = value;
-      });
-    });
   }
 
   @override
