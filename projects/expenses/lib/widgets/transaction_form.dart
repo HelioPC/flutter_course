@@ -1,4 +1,5 @@
 import 'package:expenses/widgets/adaptative_button.dart';
+import 'package:expenses/widgets/adaptative_date_picker.dart';
 import 'package:expenses/widgets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -67,22 +68,13 @@ class _TransactionFormState extends State<TransactionForm> {
             label: 'Value (\$)',
             onSubmitted: (_) => _addTransaction(),
           ),
-          SizedBox(
-            height: 70,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(DateFormat('dd/MM/y').format(_selectedDate)),
-                ),
-                TextButton(
-                  onPressed: _showDatePicker,
-                  child: const Text(
-                    'Selecionar data',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
+          AdaptativeDatePicker(
+            selectedDate: _selectedDate,
+            onDateChanged: (newDate) {
+              setState(() {
+                _selectedDate = newDate;
+              });
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
