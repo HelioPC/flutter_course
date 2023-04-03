@@ -104,15 +104,16 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Switch.adaptive(
-              activeColor: Theme.of(context).primaryColor,
-              value: _showCart,
-              onChanged: (value) {
-                setState(() {
-                  _showCart = value;
-                });
-              },
-            ),
+            if (isLandscape)
+              Switch.adaptive(
+                activeColor: Theme.of(context).primaryColor,
+                value: _showCart,
+                onChanged: (value) {
+                  setState(() {
+                    _showCart = value;
+                  });
+                },
+              ),
             if (_showCart || !isLandscape)
               SizedBox(
                 height: availableHeight * (isLandscape ? .70 : .25),
@@ -175,6 +176,7 @@ class _HomePageState extends State<HomePage> {
             floatingActionButton: Platform.isIOS
                 ? null
                 : FloatingActionButton(
+                    backgroundColor: Theme.of(context).primaryColor,
                     onPressed: _showTransactionFormModal,
                     child: const Icon(Icons.add),
                   ),
