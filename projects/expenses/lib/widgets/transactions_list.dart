@@ -30,6 +30,7 @@ class TransactionsList extends StatelessWidget {
             itemBuilder: (context, index) {
               final tr = _transactions.elementAt(index);
               return TransactionItem(
+                key: GlobalObjectKey(tr.id),
                 tr: tr,
                 removeTransaction: removeTransaction,
               );
