@@ -10,6 +10,8 @@ class MyApp extends StatelessWidget {
 
   final ThemeData theme = ThemeData(
     primarySwatch: Colors.green,
+    fontFamily: 'Raleway',
+    canvasColor: const Color.fromRGBO(255, 254, 229, 1),
   );
 
   // This widget is the root of your application.
@@ -21,12 +23,13 @@ class MyApp extends StatelessWidget {
       theme: theme.copyWith(
         colorScheme: theme.colorScheme.copyWith(
           primary: Colors.green,
-          secondary: Colors.black,
+          secondary: Colors.blue,
         ),
         textTheme: theme.textTheme.copyWith(
           titleLarge: const TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoCondensed',
             color: Colors.black,
           ),
           labelLarge: const TextStyle(
