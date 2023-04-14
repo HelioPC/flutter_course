@@ -44,15 +44,17 @@ class _TransactionItemState extends State<TransactionItem> {
           actions: [
             CupertinoActionSheetAction(
               onPressed: () {
-                widget.removeTransaction(widget.tr.id);
-              },
-              child: const Text('Confirm'),
-            ),
-            CupertinoActionSheetAction(
-              onPressed: () {
                 Navigator.pop(context);
               },
               child: const Text('Cancel'),
+            ),
+            CupertinoActionSheetAction(
+              isDestructiveAction: true,
+              onPressed: () {
+                widget.removeTransaction(widget.tr.id);
+                Navigator.pop(context);
+              },
+              child: const Text('Confirm'),
             ),
           ],
         );
