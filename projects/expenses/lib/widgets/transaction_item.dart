@@ -34,7 +34,7 @@ class _TransactionItemState extends State<TransactionItem> {
   Color? _backgroundColor;
 
   void _removeTransaction() {
-    HapticFeedback.vibrate();
+    HapticFeedback.heavyImpact();
     Platform.isIOS
         ? showCupertinoModalPopup(
             context: context,
@@ -86,7 +86,8 @@ class _TransactionItemState extends State<TransactionItem> {
                   ),
                 ],
               );
-            });
+            },
+          );
   }
 
   @override
