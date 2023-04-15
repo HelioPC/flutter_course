@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:expenses/models/transaction.dart';
 import 'package:expenses/widgets/transaction_form.dart';
@@ -119,7 +118,18 @@ class _TransactionItemState extends State<TransactionItem> {
   void initState() {
     super.initState();
 
-    int i = Random().nextInt(5);
+    double value = widget.tr.value;
+    int i = value < 50
+        ? 0
+        : value < 500
+            ? 1
+            : value < 1000
+                ? 2
+                : value < 5000
+                    ? 3
+                    : value < 10000
+                        ? 4
+                        : 5;
     _backgroundColor = colors[i];
   }
 
