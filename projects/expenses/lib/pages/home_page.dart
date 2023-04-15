@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [];
   bool _showCart = true;
 
-  _addTransaction(String title, double value, DateTime date) {
+  _addTransaction(_, String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
@@ -29,6 +29,26 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       _transactions.add(newTransaction);
+    });
+
+    Navigator.of(context).pop();
+  }
+
+  _editTransaction(String? id, String title, double value, DateTime date) {
+    Transaction? transaction;
+    try {
+      transaction = _transactions.firstWhere((tr) => tr.id == id);
+    } catch (e) {
+      Navigator.of(context).pop();
+      return;
+    }
+
+    setState(() {
+      if (transaction != null) {
+        transaction.title = title;
+        transaction.value = value;
+        transaction.date = date;
+      }
     });
 
     Navigator.of(context).pop();
@@ -46,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (context) {
-        return TransactionForm(addTransaction: _addTransaction);
+        return TransactionForm(action: _addTransaction);
       },
     );
   }
@@ -123,6 +143,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: availableHeight * (isLandscape ? 1 : .70),
                 child: TransactionsList(
+                  editTransaction: _editTransaction,
                   transactions: _transactions,
                   removeTransaction: _deleteTransaction,
                 ),
@@ -166,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: availableHeight * (isLandscape ? 1 : .70),
                       child: TransactionsList(
+                        editTransaction: _editTransaction,
                         transactions: _transactions,
                         removeTransaction: _deleteTransaction,
                       ),

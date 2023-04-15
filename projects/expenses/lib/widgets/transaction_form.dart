@@ -4,9 +4,25 @@ import 'package:expenses/widgets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatefulWidget {
-  const TransactionForm({super.key, required this.addTransaction});
+  const TransactionForm({
+    super.key,
+    required this.action,
+    this.title,
+    this.value,
+    this.date,
+    this.id,
+  });
 
-  final void Function(String, double, DateTime) addTransaction;
+  final String? id;
+  final String? title;
+  final double? value;
+  final DateTime? date;
+  final void Function(
+    String? id,
+    String title,
+    double value,
+    DateTime date,
+  ) action;
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -16,9 +32,9 @@ class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _valueController = TextEditingController();
 
-  DateTime _selectedDate = DateTime.now();
+  late DateTime _selectedDate;
 
-  _addTransaction() {
+  _handleAction() {
     final title = _titleController.text;
     final value =
         double.tryParse(_valueController.text.replaceAll(',', '.')) ?? 0;
@@ -27,7 +43,22 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.addTransaction(title, value, _selectedDate);
+    widget.action(widget.id, title, value, _selectedDate);
+  }
+
+  @override
+  void initState() {
+    _titleController.text = widget.title ?? '';
+    _valueController.text = widget.value != null ? widget.value.toString() : '';
+    _selectedDate = widget.date ?? DateTime.now();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _valueController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,13 +76,13 @@ class _TransactionFormState extends State<TransactionForm> {
           AdaptativeTextfield(
             controller: _titleController,
             label: 'Title',
-            onSubmitted: (_) => _addTransaction(),
+            onSubmitted: (_) => _handleAction(),
           ),
           AdaptativeTextfield(
             controller: _valueController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             label: 'Value (\$)',
-            onSubmitted: (_) => _addTransaction(),
+            onSubmitted: (_) => _handleAction(),
           ),
           AdaptativeDatePicker(
             selectedDate: _selectedDate,
@@ -65,8 +96,8 @@ class _TransactionFormState extends State<TransactionForm> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AdaptativeButton(
-                text: 'New transaction',
-                onPressed: _addTransaction,
+                text: widget.id != null ? 'Save' : 'New transaction',
+                onPressed: _handleAction,
               ),
             ],
           ),

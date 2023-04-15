@@ -7,10 +7,17 @@ class TransactionsList extends StatelessWidget {
     super.key,
     required List<Transaction> transactions,
     required this.removeTransaction,
+    required this.editTransaction,
   }) : _transactions = transactions;
 
   final List<Transaction> _transactions;
   final void Function(String) removeTransaction;
+  final void Function(
+    String? id,
+    String title,
+    double value,
+    DateTime date,
+  ) editTransaction;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +41,7 @@ class TransactionsList extends StatelessWidget {
                 key: GlobalObjectKey(tr.id),
                 tr: tr,
                 removeTransaction: removeTransaction,
+                editTransaction: editTransaction,
               );
             },
           );

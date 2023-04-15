@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:expenses/models/transaction.dart';
+import 'package:expenses/widgets/transaction_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,10 +14,17 @@ class TransactionItem extends StatefulWidget {
     super.key,
     required this.tr,
     required this.removeTransaction,
+    required this.editTransaction,
   });
 
   final Transaction tr;
   final void Function(String p1) removeTransaction;
+  final void Function(
+    String? id,
+    String title,
+    double value,
+    DateTime date,
+  ) editTransaction;
 
   @override
   State<TransactionItem> createState() => _TransactionItemState();
@@ -90,6 +98,23 @@ class _TransactionItemState extends State<TransactionItem> {
           );
   }
 
+  _showTransactionFormModal() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      context: context,
+      builder: (context) {
+        return TransactionForm(
+          id: widget.tr.id,
+          title: widget.tr.title,
+          value: widget.tr.value,
+          date: widget.tr.date,
+          action: widget.editTransaction,
+        );
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +134,7 @@ class _TransactionItemState extends State<TransactionItem> {
         }),
         children: [
           SlidableAction(
-            onPressed: (BuildContext context) {},
+            onPressed: (BuildContext context) => _showTransactionFormModal(),
             backgroundColor: Colors.grey,
             foregroundColor: Colors.white,
             icon: Icons.edit,
