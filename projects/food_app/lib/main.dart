@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         AppRoutes.home: (context) => const CategoriesPage(),
-        AppRoutes.categoriesMeals: (context) => CategoriesMealsPage(),
+        AppRoutes.categoriesMeals: (context) => const CategoriesMealsPage(),
       },
     );
   }
