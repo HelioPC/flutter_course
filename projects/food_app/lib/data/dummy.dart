@@ -5,12 +5,12 @@ import 'package:food_app/models/meal.dart';
 final dummyCategories = [
   Category(
     id: 'c1',
-    title: 'Italiano',
+    title: 'Italian',
     color: Colors.purple,
   ),
   Category(
     id: 'c2',
-    title: 'Rápido & Fácil',
+    title: 'Fast & Easy',
     color: Colors.red,
   ),
   Category(
@@ -20,37 +20,37 @@ final dummyCategories = [
   ),
   Category(
     id: 'c4',
-    title: 'Alemã',
+    title: 'German',
     color: Colors.amber,
   ),
   Category(
     id: 'c5',
-    title: 'Leve & Saudável',
+    title: 'Smooth & Healthy',
     color: Colors.amber,
   ),
   Category(
     id: 'c6',
-    title: 'Exótica',
+    title: 'Exotic',
     color: Colors.green,
   ),
   Category(
     id: 'c7',
-    title: 'Café da Manhã',
+    title: 'Breakfast',
     color: Colors.lightBlue,
   ),
   Category(
     id: 'c8',
-    title: 'Asiática',
+    title: 'Asian',
     color: Colors.lightGreen,
   ),
   Category(
     id: 'c9',
-    title: 'Francesa',
+    title: 'French',
     color: Colors.pink,
   ),
   Category(
     id: 'c10',
-    title: 'Verão',
+    title: 'Summer',
     color: Colors.teal,
   ),
 ];
