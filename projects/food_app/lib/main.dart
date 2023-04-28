@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/pages/categories_meals_page.dart';
-import 'package:food_app/pages/categories_page.dart';
 import 'package:food_app/pages/meal_detail_page.dart';
+import 'package:food_app/pages/tabs_page.dart';
 import 'package:food_app/utils/app_routes.dart';
 
 void main() {
@@ -48,14 +48,14 @@ class MyApp extends StatelessWidget {
         ),
       ),
       routes: {
-        AppRoutes.home: (context) => const CategoriesPage(),
+        AppRoutes.home: (context) => const TabsPage(),
         AppRoutes.categoriesMeals: (context) => const CategoriesMealsPage(),
         AppRoutes.mealDetail: (context) => const MealDetailPage(),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return const CategoriesPage();
+            return const TabsPage();
           },
         );
       },
