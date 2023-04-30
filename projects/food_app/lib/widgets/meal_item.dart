@@ -8,7 +8,24 @@ class MealItem extends StatelessWidget {
   final Meal meal;
 
   void _selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(AppRoutes.mealDetail, arguments: meal);
+    Navigator.of(context)
+        .pushNamed(
+      AppRoutes.mealDetail,
+      arguments: meal,
+    )
+        .then((value) {
+      if (value == null) {
+      } else {
+        return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('The meal is $value'),
+            );
+          },
+        );
+      }
+    });
   }
 
   @override
