@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
   );
 
   Settings settings = Settings();
-
   List<Meal> _availableMeals = dummyMeals;
+  final List<Meal> _favoriteMeals = [];
 
   void _filterMeals(Settings settings) {
     setState(() {
@@ -45,6 +45,18 @@ class _MyAppState extends State<MyApp> {
             !filterVegetarian;
       }).toList();
     });
+  }
+
+  void _toggleFavorite(Meal meal) {
+    setState(() {
+      _favoriteMeals.contains(meal)
+          ? _favoriteMeals.remove(meal)
+          : _favoriteMeals.add(meal);
+    });
+  }
+
+  bool _isFavorite(Meal meal) {
+    return _favoriteMeals.contains(meal);
   }
 
   // This widget is the root of your application.
@@ -78,18 +90,21 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       routes: {
-        AppRoutes.home: (context) => const TabsPage(),
+        AppRoutes.home: (context) => TabsPage(favoriteMeals: _favoriteMeals),
         AppRoutes.categoriesMeals: (context) => CategoriesMealsPage(
               meals: _availableMeals,
             ),
-        AppRoutes.mealDetail: (context) => const MealDetailPage(),
+        AppRoutes.mealDetail: (context) => MealDetailPage(
+              toggleFavorite: _toggleFavorite,
+              isFavorite: _isFavorite,
+            ),
         AppRoutes.settings: (context) =>
             SettingsPage(onSettingsChange: _filterMeals, settings: settings),
       },
       onUnknownRoute: (settings) {
         return MaterialPageRoute(
           builder: (context) {
-            return const TabsPage();
+            return TabsPage(favoriteMeals: _favoriteMeals);
           },
         );
       },
