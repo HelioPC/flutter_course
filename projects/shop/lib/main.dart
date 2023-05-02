@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
           seedColor: Colors.deepPurple,
           secondary: Colors.deepOrange,
         ),
+        fontFamily: 'Lato',
         useMaterial3: true,
       ),
       home: ProductsOverviewPage(),
