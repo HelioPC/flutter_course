@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
-import 'package:shop/widgets/my_badge.dart';
+import 'package:shop/utils/routes.dart';
 import 'package:shop/widgets/products_grid.dart';
 
 enum FilterOptions {
@@ -52,13 +52,21 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
           Consumer<Cart>(
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.cart);
+              },
               icon: const Icon(Icons.shopping_cart),
             ),
             builder: (context, value, child) {
-              return MyBadge(
-                value: value.itemsCount.toString(),
-                child: child!,
+              return Badge(
+                isLabelVisible: value.itemsCount > 0,
+                alignment: const AlignmentDirectional(0.3, -0.5),
+                label: Text(
+                  value.itemsCount.toString(),
+                  style: const TextStyle(fontSize: 10),
+                  textAlign: TextAlign.center,
+                ),
+                child: child,
               );
             },
           ),
