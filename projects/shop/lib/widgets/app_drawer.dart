@@ -11,6 +11,7 @@ class AppDrawer extends StatelessWidget {
         children: [
           AppBar(
             title: const Text('Welcome User'),
+            automaticallyImplyLeading: false,
           ),
           ListTile(
             leading: const Icon(Icons.shop),
