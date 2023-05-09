@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/utils/routes.dart';
+import 'package:shop/widgets/app_drawer.dart';
 import 'package:shop/widgets/products_grid.dart';
 
 enum FilterOptions {
@@ -72,6 +73,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
           ),
         ],
       ),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(10),
         child: ProductsGrid(
