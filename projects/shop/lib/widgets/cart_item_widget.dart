@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/cart.dart';
@@ -26,6 +27,31 @@ class CartItemWidget extends StatelessWidget {
           size: 40,
         ),
       ),
+      confirmDismiss: (direction) {
+        return showCupertinoModalPopup<bool>(
+          context: context,
+          builder: (ctx) {
+            return CupertinoActionSheet(
+              title: const Text('Are you sure?'),
+              message: Text('Remove ${cartItem.name} from cart'),
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.of(ctx).pop(true);
+                  },
+                  child: const Text('Confirm'),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () {
+                    Navigator.of(ctx).pop(false);
+                  },
+                  child: const Text('Cancel'),
+                ),
+              ],
+            );
+          },
+        );
+      },
       onDismissed: (direction) {
         Provider.of<Cart>(
           context,
