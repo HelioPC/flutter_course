@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop/models/product_list.dart';
+import 'package:shop/utils/routes.dart';
 import 'package:shop/widgets/product_item.dart';
 
 class ProductsPage extends StatelessWidget {
@@ -11,7 +12,15 @@ class ProductsPage extends StatelessWidget {
     final ProductList products = Provider.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Product management'),
+        title: const Text('Products management'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(AppRoutes.productForm);
+            },
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8),
