@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:shop/models/product.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/product_list.dart';
 
 class ProductFormPage extends StatefulWidget {
   const ProductFormPage({super.key});
@@ -46,17 +45,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
     _formKey.currentState?.save();
 
-    final _newProduct = Product(
-      id: Random().nextDouble().toString(),
-      title: _formData['name'] as String,
-      description: _formData['description'] as String,
-      price: _formData['price'] as double,
-      imageUrl: _formData['imageUrl'] as String,
-    );
-
-    print(_newProduct.description);
-    print(_newProduct.price);
-    print(_newProduct.imageUrl);
+    Provider.of<ProductList>(context, listen: false)
+        .addProductFromData(_formData);
+    Navigator.of(context).pop();
   }
 
   bool isValidUrl(String url) {
@@ -119,10 +110,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     double.parse(price?.replaceFirst(RegExp(','), '.') ?? '0'),
                 focusNode: _priceFocus,
                 validator: (value) {
-                  final price = double.tryParse(value ?? '-1') ?? -1;
+                  final price = double.tryParse(
+                        value?.replaceFirst(RegExp(','), '.') ?? '-1',
+                      ) ??
+                      -1;
 
                   if (price <= 0) {
-                    return '\'$price\' is an invalid price';
+                    return 'Invalid price';
                   }
 
                   return null;
