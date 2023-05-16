@@ -24,7 +24,7 @@ class ProductList with ChangeNotifier {
       imageUrl: data['imageUrl'] as String,
     );
 
-    if (hasId) {
+    if (!hasId) {
       add(newProduct);
     } else {
       update(newProduct);
@@ -47,5 +47,14 @@ class ProductList with ChangeNotifier {
       _items[index] = product;
     } else {}
     notifyListeners();
+  }
+
+  void delete(Product product) {
+    int index = _items.indexWhere((p) => p.id == product.id);
+
+    if (index >= 0) {
+      _items.remove(product);
+      notifyListeners();
+    }
   }
 }

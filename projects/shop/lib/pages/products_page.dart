@@ -9,7 +9,7 @@ class ProductsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductList products = Provider.of(context);
+    final ProductList products = Provider.of(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Products management'),
