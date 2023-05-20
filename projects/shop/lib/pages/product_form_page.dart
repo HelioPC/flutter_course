@@ -74,8 +74,10 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
   bool isValidUrl(String url) {
     final isValid = Uri.tryParse(url)?.hasAbsolutePath ?? false;
-    final endsWithFile =
-        url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg');
+    final endsWithFile = url.endsWith('.png') ||
+        url.endsWith('.jpg') ||
+        url.endsWith('.jpeg') ||
+        url.endsWith('0');
 
     return isValid && endsWithFile;
   }
@@ -211,12 +213,16 @@ class _ProductFormPageState extends State<ProductFormPage> {
                             'Url',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )
-                        : FittedBox(
-                            child: Image.network(
-                              _imageUrlController.text,
-                              width: 90,
-                              height: 90,
-                              fit: BoxFit.cover,
+                        : SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: FittedBox(
+                              child: Image.network(
+                                _imageUrlController.text,
+                                width: 90,
+                                height: 90,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                   ),
