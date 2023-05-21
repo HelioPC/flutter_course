@@ -16,7 +16,7 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount => _items.length;
 
-  void addProductFromData(Map<String, Object> data) {
+  Future<void> addProductFromData(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final newProduct = Product(
@@ -28,28 +28,40 @@ class ProductList with ChangeNotifier {
     );
 
     if (!hasId) {
-      add(newProduct);
+      return add(newProduct);
     } else {
-      update(newProduct);
+      return update(newProduct);
     }
-
-    notifyListeners();
   }
 
-  void add(Product product) {
-    http.post(Uri.parse('$_baseUrl/products.json'),
-        body: jsonEncode({
-          'name': product.title,
-          'description': product.description,
-          'price': product.price,
-          'imageUrl': product.imageUrl,
-          'isFavorite': product.isFavorite,
-        }));
-    _items.add(product);
-    notifyListeners();
+  Future<void> add(Product product) {
+    // https://cdn.pixabay.com/photo/2016/07/20/21/03/tux-1531289_1280.png
+    final future = http.post(
+      Uri.parse('$_baseUrl/products.json'),
+      body: jsonEncode({
+        'name': product.title,
+        'description': product.description,
+        'price': product.price,
+        'imageUrl': product.imageUrl,
+        'isFavorite': product.isFavorite,
+      }),
+    );
+
+    return future.then<void>((value) {
+      final id = jsonDecode(value.body)['name'];
+      _items.add(Product(
+        id: id,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        isFavorite: product.isFavorite,
+      ));
+      notifyListeners();
+    });
   }
 
-  void update(Product product) {
+  Future<void> update(Product product) {
     int index = _items.indexWhere(
       (p) => p.id == product.id,
     );
@@ -58,6 +70,8 @@ class ProductList with ChangeNotifier {
       _items[index] = product;
     } else {}
     notifyListeners();
+
+    return Future.value();
   }
 
   void delete(Product product) {
