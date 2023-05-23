@@ -63,7 +63,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) return;
@@ -72,10 +72,15 @@ class _ProductFormPageState extends State<ProductFormPage> {
 
     setState(() => _isLoading = true);
 
-    Provider.of<ProductList>(context, listen: false)
-        .addProductFromData(_formData)
-        .catchError((error) {
-      return showCupertinoDialog(
+    try {
+      await Provider.of<ProductList>(context, listen: false)
+          .addProductFromData(_formData);
+
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      await showCupertinoDialog(
         context: context,
         builder: (ctx) {
           return CupertinoAlertDialog(
@@ -92,10 +97,9 @@ class _ProductFormPageState extends State<ProductFormPage> {
           );
         },
       );
-    }).then((value) {
+    } finally {
       setState(() => _isLoading = false);
-      Navigator.of(context).pop();
-    });
+    }
   }
 
   bool isValidUrl(String url) {
