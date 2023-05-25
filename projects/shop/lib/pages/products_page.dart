@@ -7,6 +7,10 @@ import 'package:shop/widgets/product_item.dart';
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
 
+  Future<void> _refreshProducts(BuildContext context) {
+    return Provider.of<ProductList>(context, listen: false).loadProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ProductList products = Provider.of(context, listen: true);
@@ -22,14 +26,17 @@ class ProductsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.separated(
-          itemCount: products.itemsCount,
-          separatorBuilder: (context, index) => const Divider(),
-          itemBuilder: (ctx, i) {
-            return ProductItem(product: products.items[i]);
-          },
+      body: RefreshIndicator(
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.separated(
+            itemCount: products.itemsCount,
+            separatorBuilder: (context, index) => const Divider(),
+            itemBuilder: (ctx, i) {
+              return ProductItem(product: products.items[i]);
+            },
+          ),
         ),
       ),
     );
