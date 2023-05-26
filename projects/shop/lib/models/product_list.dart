@@ -100,12 +100,19 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  void delete(Product product) {
+  Future<void> delete(Product product) async {
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
+      final sameProduct = _items[index];
       _items.remove(product);
       notifyListeners();
+
+      final response = await http.delete(Uri.parse('$_baseUrl/${product.id}'));
+
+      if (response.statusCode >= 400) {
+        _items.insert(index, sameProduct);
+      }
     }
   }
 }
