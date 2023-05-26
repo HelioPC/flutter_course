@@ -12,6 +12,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
+
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -40,10 +42,21 @@ class ProductItem extends StatelessWidget {
                       message: Text('Remove ${product.title} permanently'),
                       actions: [
                         CupertinoDialogAction(
-                          onPressed: () {
-                            Provider.of<ProductList>(context, listen: false)
-                                .delete(product);
-                            Navigator.of(ctx).pop();
+                          onPressed: () async {
+                            if (context.mounted) {
+                              Navigator.of(ctx).pop();
+                            }
+                            try {
+                              await Provider.of<ProductList>(context,
+                                      listen: false)
+                                  .delete(product);
+                            } catch (e) {
+                              msg.showSnackBar(
+                                SnackBar(
+                                  content: Text(e.toString()),
+                                ),
+                              );
+                            }
                           },
                           child: const Text('Confirm'),
                         ),
