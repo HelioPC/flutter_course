@@ -7,7 +7,7 @@ import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
   final _baseUrl =
-      'https://flutter-shop-6b598-default-rtdb.firebaseio.com/products.json';
+      'https://flutter-shop-6b598-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
@@ -18,7 +18,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse(_baseUrl));
+    final response = await http.get(Uri.parse('$_baseUrl.json'));
 
     if (response.body == 'null') return;
 
@@ -58,7 +58,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> add(Product product) async {
     final response = await http.post(
-      Uri.parse(_baseUrl),
+      Uri.parse('$_baseUrl.json'),
       body: jsonEncode({
         'name': product.title,
         'description': product.description,
@@ -80,17 +80,24 @@ class ProductList with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> update(Product product) {
+  Future<void> update(Product product) async {
     int index = _items.indexWhere(
       (p) => p.id == product.id,
     );
 
     if (index >= 0) {
-      _items[index] = product;
-    } else {}
+      await http.patch(
+        Uri.parse('$_baseUrl/${product.id}.json'),
+        body: jsonEncode({
+          'name': product.title,
+          'description': product.description,
+          'price': product.price,
+          'imageUrl': product.imageUrl,
+        }),
+      );
+    }
+    _items[index] = product;
     notifyListeners();
-
-    return Future.value();
   }
 
   void delete(Product product) {
