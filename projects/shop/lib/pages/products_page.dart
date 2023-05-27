@@ -39,6 +39,12 @@ class ProductsPage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(AppRoutes.productForm);
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
