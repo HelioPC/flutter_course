@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/exceptions/auth_exception.dart';
 import 'package:shop/models/auth.dart';
 
 enum AuthMode { signup, login }
@@ -22,6 +23,24 @@ class _AuthFormState extends State<AuthForm> {
     'password': '',
   };
 
+  void _showErrorDialog(String msg) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Authentication failed'),
+          content: Text(msg),
+          actions: [
+            CupertinoDialogAction(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<void> _submit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
@@ -33,10 +52,16 @@ class _AuthFormState extends State<AuthForm> {
 
     Auth auth = Provider.of<Auth>(context, listen: false);
 
-    if (_isLogin()) {
-      await auth.signIn(_authData['email']!, _authData['password']!);
-    } else {
-      await auth.signup(_authData['email']!, _authData['password']!);
+    try {
+      if (_isLogin()) {
+        await auth.signIn(_authData['email']!, _authData['password']!);
+      } else {
+        await auth.signup(_authData['email']!, _authData['password']!);
+      }
+    } on AuthException catch (e) {
+      _showErrorDialog(e.toString());
+    } catch (e) {
+      _showErrorDialog('Unexpected error');
     }
 
     setState(() => isLoading = false);
@@ -77,6 +102,7 @@ class _AuthFormState extends State<AuthForm> {
           child: Column(
             children: [
               CupertinoTextFormFieldRow(
+                enabled: !isLoading,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -94,6 +120,7 @@ class _AuthFormState extends State<AuthForm> {
                 },
               ),
               CupertinoTextFormFieldRow(
+                enabled: !isLoading,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -116,6 +143,7 @@ class _AuthFormState extends State<AuthForm> {
               ),
               if (_isSignup())
                 CupertinoTextFormFieldRow(
+                  enabled: !isLoading,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
