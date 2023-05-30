@@ -4,13 +4,12 @@ import 'package:shop/models/auth.dart';
 import 'package:shop/models/cart.dart';
 import 'package:shop/models/order_list.dart';
 import 'package:shop/models/product_list.dart';
-import 'package:shop/pages/auth_page.dart';
+import 'package:shop/pages/auth_or_home_page.dart';
 import 'package:shop/pages/cart_page.dart';
 import 'package:shop/pages/orders_page.dart';
 import 'package:shop/pages/product_detail_page.dart';
 import 'package:shop/pages/product_form_page.dart';
 import 'package:shop/pages/products_page.dart';
-import 'package:shop/pages/products_overview_page.dart';
 import 'package:shop/utils/routes.dart';
 
 void main() {
@@ -57,8 +56,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
           ),
           routes: {
-            AppRoutes.auth: (context) => const AuthPage(),
-            AppRoutes.home: (context) => const ProductsOverviewPage(),
+            AppRoutes.auth: (context) => const AuthOrHomePage(),
             AppRoutes.productDetail: (context) => const ProductDetailPage(),
             AppRoutes.cart: (context) => const CartPage(),
             AppRoutes.orders: (context) => const OrdersPage(),
