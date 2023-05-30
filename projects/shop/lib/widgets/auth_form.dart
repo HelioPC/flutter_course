@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop/models/auth.dart';
 
 enum AuthMode { signup, login }
 
@@ -15,12 +17,12 @@ class _AuthFormState extends State<AuthForm> {
   final passwordController = TextEditingController();
   AuthMode authMode = AuthMode.signup;
   bool isLoading = false;
-  Map<String, String> _authData = {
+  final Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
-  void _submit() {
+  Future<void> _submit() async {
     final isValid = _formKey.currentState?.validate() ?? false;
 
     if (!isValid) return;
@@ -29,8 +31,13 @@ class _AuthFormState extends State<AuthForm> {
 
     _formKey.currentState?.save();
 
+    Auth auth = Provider.of<Auth>(context, listen: false);
+
     if (_isLogin()) {
-    } else {}
+      await auth.signIn(_authData['email']!, _authData['password']!);
+    } else {
+      await auth.signup(_authData['email']!, _authData['password']!);
+    }
 
     setState(() => isLoading = false);
   }
@@ -80,7 +87,6 @@ class _AuthFormState extends State<AuthForm> {
                 onChanged: (value) => _authData['email'] = value,
                 validator: (value) {
                   final email = value ?? '';
-                  print(email.trim().isEmpty || !email.contains('@'));
                   if (email.trim().isEmpty || !email.contains('@')) {
                     return 'Invalid e-mail address';
                   }
