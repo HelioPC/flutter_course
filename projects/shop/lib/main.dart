@@ -25,16 +25,19 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => ProductList(),
+          create: (context) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, ProductList>(
+          create: (context) => ProductList('', []),
+          update: (context, value, previous) {
+            return ProductList(value.token ?? '', previous?.items ?? []);
+          },
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
         ChangeNotifierProvider(
           create: (context) => OrderList(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Auth(),
         ),
       ],
       child: GestureDetector(

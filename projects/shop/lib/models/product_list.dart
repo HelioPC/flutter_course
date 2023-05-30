@@ -8,7 +8,11 @@ import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final List<Product> _items = [];
+  final String _token;
+  // ignore: prefer_final_fields
+  List<Product> _items = [];
+
+  ProductList(this._token, this._items);
 
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
@@ -18,8 +22,8 @@ class ProductList with ChangeNotifier {
 
   Future<void> loadProducts() async {
     _items.clear();
-    final response =
-        await http.get(Uri.parse('${Constants.productBaseUrl}.json'));
+    final response = await http
+        .get(Uri.parse('${Constants.productBaseUrl}.json?auth=$_token'));
 
     if (response.body == 'null') return;
 
