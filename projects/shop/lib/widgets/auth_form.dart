@@ -11,14 +11,42 @@ class AuthForm extends StatefulWidget {
 }
 
 class _AuthFormState extends State<AuthForm> {
+  final _formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
   AuthMode authMode = AuthMode.signup;
+  bool isLoading = false;
   Map<String, String> _authData = {
     'email': '',
     'password': '',
   };
 
-  void _submit() {}
+  void _submit() {
+    final isValid = _formKey.currentState?.validate() ?? false;
+
+    if (!isValid) return;
+
+    setState(() => isLoading = true);
+
+    _formKey.currentState?.save();
+
+    if (_isLogin()) {
+    } else {}
+
+    setState(() => isLoading = false);
+  }
+
+  void _switchMode() {
+    setState(() {
+      if (_isLogin()) {
+        authMode = AuthMode.signup;
+      } else {
+        authMode = AuthMode.login;
+      }
+    });
+  }
+
+  bool _isLogin() => authMode == AuthMode.login;
+  bool _isSignup() => authMode == AuthMode.signup;
 
   @override
   void dispose() {
@@ -35,18 +63,24 @@ class _AuthFormState extends State<AuthForm> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
         width: deviceSize.width * .75,
-        height: 320,
+        height: 420,
         padding: const EdgeInsets.all(16),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               CupertinoTextFormFieldRow(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
                 placeholder: 'E-mail',
                 onChanged: (value) => _authData['email'] = value,
                 validator: (value) {
                   final email = value ?? '';
+                  print(email.trim().isEmpty || !email.contains('@'));
                   if (email.trim().isEmpty || !email.contains('@')) {
                     return 'Invalid e-mail address';
                   }
@@ -54,6 +88,10 @@ class _AuthFormState extends State<AuthForm> {
                 },
               ),
               CupertinoTextFormFieldRow(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 controller: passwordController,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.visiblePassword,
@@ -70,13 +108,17 @@ class _AuthFormState extends State<AuthForm> {
                   return null;
                 },
               ),
-              if (authMode == AuthMode.signup)
+              if (_isSignup())
                 CupertinoTextFormFieldRow(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   textInputAction: TextInputAction.done,
                   keyboardType: TextInputType.visiblePassword,
                   placeholder: 'Confirm password',
                   obscureText: true,
-                  validator: authMode == AuthMode.login
+                  validator: _isLogin()
                       ? null
                       : (value) {
                           final password = value ?? '';
@@ -88,14 +130,25 @@ class _AuthFormState extends State<AuthForm> {
                         },
                 ),
               const SizedBox(height: 20),
-              CupertinoButton.filled(
-                onPressed: _submit,
-                borderRadius: BorderRadius.circular(30),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 30,
+              Visibility(
+                visible: !isLoading,
+                replacement: const CircularProgressIndicator(),
+                child: CupertinoButton.filled(
+                  onPressed: _submit,
+                  borderRadius: BorderRadius.circular(30),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 30,
+                  ),
+                  child: Text(authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'),
                 ),
-                child: Text(authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'),
+              ),
+              const Spacer(),
+              CupertinoButton(
+                onPressed: _switchMode,
+                child: Text(
+                  _isLogin() ? 'SIGN UP NOW' : 'Have already an account?',
+                ),
               ),
             ],
           ),
