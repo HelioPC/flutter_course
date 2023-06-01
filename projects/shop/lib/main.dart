@@ -33,11 +33,14 @@ class MyApp extends StatelessWidget {
             return ProductList(value.token ?? '', previous?.items ?? []);
           },
         ),
-        ChangeNotifierProvider(
-          create: (context) => Cart(),
+        ChangeNotifierProxyProvider<Auth, OrderList>(
+          create: (context) => OrderList([], ''),
+          update: (context, value, previous) {
+            return OrderList(previous?.items ?? [], value.token ?? '');
+          },
         ),
         ChangeNotifierProvider(
-          create: (context) => OrderList(),
+          create: (context) => Cart(),
         ),
       ],
       child: GestureDetector(
