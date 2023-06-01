@@ -1,0 +1,39 @@
+name: shop
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.1.0-60.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.5
+  intl: ^0.18.1
+  http: ^0.13.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
+# example:
+  fonts:
+  - family: Anton
+    fonts:
+    - asset: assets/fonts/Anton-Regular.ttf
+
+  - family: Lato
+    fonts:
+    - asset: assets/fonts/Lato-Regular.ttf
+    - asset: assets/fonts/Lato-Bold.ttf
+      weight: 700
