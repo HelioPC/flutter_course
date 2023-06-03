@@ -88,14 +88,14 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
+    final deviceSize = MediaQuery.sizeOf(context);
 
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Container(
-        width: deviceSize.width * .75,
-        height: 420,
+        height: _isLogin() ? 310 : 400,
+        width: deviceSize.width * 0.75,
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
