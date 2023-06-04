@@ -9,10 +9,11 @@ import 'package:shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
   final String _token;
+  final String _uid;
   // ignore: prefer_final_fields
   List<Product> _items = [];
 
-  ProductList(this._token, this._items);
+  ProductList([this._token = '', this._uid = '', this._items = const []]);
 
   List<Product> get items => [..._items];
   List<Product> get favoriteItems =>
@@ -27,8 +28,15 @@ class ProductList with ChangeNotifier {
 
     if (response.body == 'null') return;
 
+    final favResponse = await http.get(
+        Uri.parse('${Constants.usersFavoritesUrl}/$_uid.json?auth=$_token'));
+
+    Map<String, dynamic> favData =
+        favResponse.body == 'null' ? {} : jsonDecode(favResponse.body);
+
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((key, value) {
+      final isFavorite = favData[key] ?? false;
       _items.add(
         Product(
           id: key,
@@ -36,7 +44,7 @@ class ProductList with ChangeNotifier {
           description: value['description'],
           price: value['price'],
           imageUrl: value['imageUrl'],
-          isFavorite: value['isFavorite'],
+          isFavorite: isFavorite,
         ),
       );
     });
@@ -80,7 +88,6 @@ class ProductList with ChangeNotifier {
       description: product.description,
       price: product.price,
       imageUrl: product.imageUrl,
-      isFavorite: product.isFavorite,
     ));
     notifyListeners();
   }
