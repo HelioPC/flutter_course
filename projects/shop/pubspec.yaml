@@ -16,10 +16,7 @@ dependencies:
   provider: ^6.0.5
   intl: ^0.18.1
   http: ^0.13.6
-<<<<<<< HEAD:shop/pubspec.yaml
   shared_preferences: ^2.1.1
-=======
->>>>>>> main:projects/shop/pubspec.yaml
 
 dev_dependencies:
   flutter_test:

@@ -91,14 +91,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD:shop/pubspec.lock
   flutter_web_plugins:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
-=======
->>>>>>> main:projects/shop/pubspec.lock
   http:
     dependency: "direct main"
     description:
