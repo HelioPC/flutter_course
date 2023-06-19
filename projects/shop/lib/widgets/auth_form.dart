@@ -17,9 +17,10 @@ class _AuthFormState extends State<AuthForm>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final passwordController = TextEditingController();
-  AuthMode authMode = AuthMode.signup;
+  AuthMode authMode = AuthMode.login;
   AnimationController? _animationController;
-  Animation<Size>? _heightAnimation;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
   bool isLoading = false;
   final Map<String, String> _authData = {
     'email': '',
@@ -100,9 +101,16 @@ class _AuthFormState extends State<AuthForm>
       duration: const Duration(milliseconds: 300),
     );
 
-    _heightAnimation = Tween(
-      begin: const Size(double.infinity, 310),
-      end: const Size(double.infinity, 400),
+    _opacityAnimation = Tween(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(parent: _animationController!, curve: Curves.linear),
+    );
+
+    _slideAnimation = Tween(
+      begin: const Offset(0, -1.5),
+      end: const Offset(0, 0),
     ).animate(
       CurvedAnimation(parent: _animationController!, curve: Curves.linear),
     );
@@ -125,15 +133,11 @@ class _AuthFormState extends State<AuthForm>
           key: _formKey,
           child: Column(
             children: [
-              CupertinoTextFormFieldRow(
+              TextFormField(
                 enabled: !isLoading,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                decoration: const InputDecoration(hintText: 'E-mail'),
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.emailAddress,
-                placeholder: 'E-mail',
                 onChanged: (value) => _authData['email'] = value,
                 validator: (value) {
                   final email = value ?? '';
@@ -143,16 +147,12 @@ class _AuthFormState extends State<AuthForm>
                   return null;
                 },
               ),
-              CupertinoTextFormFieldRow(
+              TextFormField(
                 enabled: !isLoading,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                decoration: const InputDecoration(hintText: 'Password'),
                 controller: passwordController,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.visiblePassword,
-                placeholder: 'Password',
                 obscureText: true,
                 onChanged: (value) => _authData['password'] = value,
                 validator: (value) {
@@ -165,28 +165,39 @@ class _AuthFormState extends State<AuthForm>
                   return null;
                 },
               ),
-              if (_isSignup())
-                CupertinoTextFormFieldRow(
-                  enabled: !isLoading,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  textInputAction: TextInputAction.done,
-                  keyboardType: TextInputType.visiblePassword,
-                  placeholder: 'Confirm password',
-                  obscureText: true,
-                  validator: _isLogin()
-                      ? null
-                      : (value) {
-                          final password = value ?? '';
-                          if (password != passwordController.text) {
-                            return 'Passwords don\'t match';
-                          }
-
-                          return null;
-                        },
+              AnimatedContainer(
+                constraints: BoxConstraints(
+                  minHeight: _isLogin() ? 0 : 60,
+                  maxHeight: _isLogin() ? 0 : 120,
                 ),
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.linear,
+                child: FadeTransition(
+                  opacity: _opacityAnimation!,
+                  child: SlideTransition(
+                    position: _slideAnimation!,
+                    child: TextFormField(
+                      enabled: !isLoading,
+                      decoration: const InputDecoration(
+                        hintText: 'Confirm password',
+                      ),
+                      textInputAction: TextInputAction.done,
+                      keyboardType: TextInputType.visiblePassword,
+                      obscureText: true,
+                      validator: _isLogin()
+                          ? null
+                          : (value) {
+                              final password = value ?? '';
+                              if (password != passwordController.text) {
+                                return 'Passwords don\'t match';
+                              }
+
+                              return null;
+                            },
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
               Visibility(
                 visible: !isLoading,
