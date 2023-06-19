@@ -28,6 +28,8 @@ flutter:
 
   uses-material-design: true
 # example:
+  assets:
+    - assets/images/bag.png
   fonts:
   - family: Anton
     fonts:

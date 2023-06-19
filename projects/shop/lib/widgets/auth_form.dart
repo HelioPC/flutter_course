@@ -84,7 +84,6 @@ class _AuthFormState extends State<AuthForm>
   }
 
   bool _isLogin() => authMode == AuthMode.login;
-  bool _isSignup() => authMode == AuthMode.signup;
 
   @override
   void dispose() {

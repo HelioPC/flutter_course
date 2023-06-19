@@ -67,10 +67,15 @@ class ProductGridItem extends StatelessWidget {
               arguments: product,
             );
           },
-          child: Image.network(
-            product.imageUrl,
+          child: FadeInImage(
+            placeholder: const AssetImage('assets/images/bag.png'),
+            image: NetworkImage(product.imageUrl),
             fit: BoxFit.cover,
           ),
+          //child: Image.network(
+          //product.imageUrl,
+          //fit: BoxFit.cover,
+          //),
         ),
       ),
     );
