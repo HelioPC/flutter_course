@@ -16,12 +16,41 @@ class ProductDetailPage extends StatelessWidget {
             expandedHeight: 300,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(product.title),
-              background: Hero(
-                tag: product.id,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Hero(
+                    tag: product.id,
+                    child: Image.network(
+                      product.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: const Alignment(0, .8),
+                        end: const Alignment(0, 0),
+                        colors: [
+                          Colors.black.withOpacity(.6),
+                          Colors.black.withOpacity(0),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: const Alignment(-1, 0),
+                        end: const Alignment(0, 0),
+                        colors: [
+                          Colors.black.withOpacity(.6),
+                          Colors.black.withOpacity(0),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
