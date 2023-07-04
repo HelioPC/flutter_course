@@ -80,23 +80,25 @@ class _ProductFormPageState extends State<ProductFormPage> {
         Navigator.of(context).pop();
       }
     } catch (e) {
-      await showCupertinoDialog(
-        context: context,
-        builder: (ctx) {
-          return CupertinoAlertDialog(
-            title: const Text('Error'),
-            content: const Text(
-              'An error occurred while connecting to firebase',
-            ),
-            actions: [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Ok'),
+      if (context.mounted) {
+        await showCupertinoDialog(
+          context: context,
+          builder: (ctx) {
+            return CupertinoAlertDialog(
+              title: const Text('Error'),
+              content: const Text(
+                'An error occurred while connecting to firebase',
               ),
-            ],
-          );
-        },
-      );
+              actions: [
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Ok'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } finally {
       setState(() => _isLoading = false);
     }
