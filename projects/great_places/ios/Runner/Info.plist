@@ -47,5 +47,9 @@
 	<true/>
 	<key>FLTEnableImpeller</key>
   	<false />
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App needs access to photo lib for location picker</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To capture location photo please grant camera access</string>
 </dict>
 </plist>
