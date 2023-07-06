@@ -9,6 +9,10 @@ class PlaceFormPage extends StatefulWidget {
 }
 
 class _PlaceFormPageState extends State<PlaceFormPage> {
+  final _titleController = TextEditingController();
+
+  void _subimtForm() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,23 +25,25 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Expanded(
+              Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       TextField(
-                        decoration: InputDecoration(
+                        controller: _titleController,
+                        textInputAction: TextInputAction.done,
+                        decoration: const InputDecoration(
                           labelText: 'Title',
                         ),
                       ),
-                      SizedBox(height: 20),
-                      ImageInput(),
+                      const SizedBox(height: 20),
+                      const ImageInput(),
                     ],
                   ),
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: _subimtForm,
                 icon: const Icon(Icons.add),
                 label: const Text('Adicionar'),
               ),
