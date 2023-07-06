@@ -39,15 +39,13 @@ class _ImageInputState extends State<ImageInput> {
             ),
           ),
           alignment: Alignment.center,
-          child: Visibility(
-            visible: _storedImage != null,
-            replacement: const Text('No image'),
-            child: Image.file(
-              _storedImage!,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-          ),
+          child: _storedImage != null
+              ? Image.file(
+                  _storedImage!,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                )
+              : const Text('No image'),
         ),
         const SizedBox(height: 10),
         Expanded(
