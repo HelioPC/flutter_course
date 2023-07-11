@@ -22,41 +22,56 @@ class PlacesListPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        builder: (context, value, child) {
-          return Visibility(
-            visible: value.count > 0,
-            replacement: child!,
-            child: ListView.builder(
-              itemCount: value.count,
-              itemBuilder: (context, index) {
-                final place = value.list[index];
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false).loadPlaces(),
+        builder: (ctx, snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          } else if (snap.hasError) {
+            return const Center(
+              child: Text('Unexpected error occur'),
+            );
+          }
 
-                return ListTile(
-                  onTap: () async {
-                    await showModalBottomSheet(
-                      showDragHandle: true,
-                      context: context,
-                      builder: (context) {
-                        return const Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [SizedBox(width: double.infinity)],
+          return Consumer<GreatPlaces>(
+            builder: (context, value, child) {
+              return Visibility(
+                visible: value.count > 0,
+                replacement: child!,
+                child: ListView.builder(
+                  itemCount: value.count,
+                  itemBuilder: (context, index) {
+                    final place = value.list[index];
+
+                    return ListTile(
+                      onTap: () async {
+                        await showModalBottomSheet(
+                          showDragHandle: true,
+                          context: context,
+                          builder: (context) {
+                            return const Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [SizedBox(width: double.infinity)],
+                            );
+                          },
                         );
                       },
+                      leading: CircleAvatar(
+                        backgroundImage: FileImage(place.image),
+                      ),
+                      title: Text(place.title),
                     );
                   },
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(place.image),
-                  ),
-                  title: Text(place.title),
-                );
-              },
+                ),
+              );
+            },
+            child: const Center(
+              child: Text('No places added'),
             ),
           );
         },
-        child: const Center(
-          child: Text('No places added'),
-        ),
       ),
     );
   }
