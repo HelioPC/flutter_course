@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:great_places/providers/great_places.dart';
 import 'package:great_places/widgets/image_input.dart';
+import 'package:great_places/widgets/location_input.dart';
 import 'package:provider/provider.dart';
 
 class PlaceFormPage extends StatefulWidget {
@@ -57,9 +58,9 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      ImageInput(
-                        onSelectImage: _setImage,
-                      ),
+                      ImageInput(onSelectImage: _setImage),
+                      const SizedBox(height: 20),
+                      const LocationInput(),
                     ],
                   ),
                 ),
@@ -67,7 +68,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
               ElevatedButton.icon(
                 onPressed: _subimtForm,
                 icon: const Icon(Icons.add),
-                label: const Text('Adicionar'),
+                label: const Text('Add place'),
               ),
             ],
           ),
