@@ -21,7 +21,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
     _pickedImage = pickedImage;
   }
 
-  void _subimtForm() {
+  void _submitForm() {
     if (_titleController.text.isEmpty || _pickedImage == null) {
       return;
     }
@@ -66,7 +66,7 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: _subimtForm,
+                onPressed: _submitForm,
                 icon: const Icon(Icons.add),
                 label: const Text('Add place'),
               ),

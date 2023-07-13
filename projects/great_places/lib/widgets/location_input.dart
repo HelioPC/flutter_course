@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:great_places/pages/MapPage.dart';
 import 'package:great_places/utils/location_utils.dart';
 import 'package:location/location.dart';
 
@@ -23,6 +24,17 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _imagePreview = staticMap;
     });
+  }
+
+  Future<void> _getCustomLocation() async {
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => const MapPage(),
+      ),
+    );
+
+    if (result == null) return;
   }
 
   @override
@@ -56,7 +68,7 @@ class _LocationInputState extends State<LocationInput> {
               label: const Text('Current location'),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _getCustomLocation,
               icon: const Icon(Icons.map),
               label: const Text('Select on map'),
             ),
