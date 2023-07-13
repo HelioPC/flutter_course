@@ -20,7 +20,8 @@ class GreatPlaces extends ChangeNotifier {
           (e) => Place(
             id: e['id'],
             title: e['title'],
-            location: PlaceLocation(latitude: 0, longitude: 0, address: ''),
+            location:
+                const PlaceLocation(latitude: 0, longitude: 0, address: ''),
             image: File(e['image']),
           ),
         )
@@ -33,7 +34,7 @@ class GreatPlaces extends ChangeNotifier {
     final newPlace = Place(
       id: Random().nextDouble().toString(),
       title: title,
-      location: PlaceLocation(latitude: 0, longitude: 0, address: ''),
+      location: const PlaceLocation(latitude: 0, longitude: 0, address: ''),
       image: image,
     );
 

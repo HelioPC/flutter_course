@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:great_places/pages/MapPage.dart';
+import 'package:great_places/pages/map_page.dart';
 import 'package:great_places/utils/location_utils.dart';
 import 'package:location/location.dart';
 
@@ -37,8 +37,8 @@ class _LocationInputState extends State<LocationInput> {
 
     if (result == null) return;
 
-    print(result.latitude);
-    print(result.longitude);
+    debugPrint(result.latitude.toString());
+    debugPrint(result.longitude.toString());
   }
 
   @override
