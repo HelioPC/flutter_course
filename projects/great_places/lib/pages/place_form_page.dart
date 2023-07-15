@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/providers/great_places.dart';
 import 'package:great_places/widgets/image_input.dart';
 import 'package:great_places/widgets/location_input.dart';
@@ -16,22 +17,40 @@ class PlaceFormPage extends StatefulWidget {
 class _PlaceFormPageState extends State<PlaceFormPage> {
   final _titleController = TextEditingController();
   File? _pickedImage;
+  LatLng? _position;
 
   void _setImage(File? pickedImage) {
-    _pickedImage = pickedImage;
+    setState(() {
+      _pickedImage = pickedImage;
+    });
+  }
+
+  void _setLocation(LatLng position) {
+    setState(() {
+      _position = position;
+    });
   }
 
   void _submitForm() {
-    if (_titleController.text.isEmpty || _pickedImage == null) {
+    if (_titleController.text.isEmpty ||
+        _pickedImage == null ||
+        _position == null) {
       return;
     }
 
     Provider.of<GreatPlaces>(context, listen: false).addPlace(
       _titleController.text,
       _pickedImage!,
+      _position!,
     );
 
     Navigator.of(context).pop();
+  }
+
+  bool canSubmit() {
+    return _pickedImage != null &&
+        _position != null &&
+        _titleController.text.isNotEmpty;
   }
 
   @override
@@ -60,13 +79,15 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                       const SizedBox(height: 20),
                       ImageInput(onSelectImage: _setImage),
                       const SizedBox(height: 20),
-                      const LocationInput(),
+                      LocationInput(
+                        onSelectPosition: _setLocation,
+                      ),
                     ],
                   ),
                 ),
               ),
               ElevatedButton.icon(
-                onPressed: _submitForm,
+                onPressed: canSubmit() ? _submitForm : null,
                 icon: const Icon(Icons.add),
                 label: const Text('Add place'),
               ),
