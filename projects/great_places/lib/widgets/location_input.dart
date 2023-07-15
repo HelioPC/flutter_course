@@ -26,6 +26,9 @@ class _LocationInputState extends State<LocationInput> {
     setState(() {
       _imagePreview = staticMap;
     });
+
+    widget.onSelectPosition(
+        LatLng(location.latitude ?? 0, location.longitude ?? 0));
   }
 
   Future<void> _getCustomLocation() async {
