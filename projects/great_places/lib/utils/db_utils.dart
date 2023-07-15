@@ -9,7 +9,8 @@ class DBUtils {
       path.join(dbPath, 'places.db'),
       onCreate: (db, version) {
         return db.execute(
-          'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT)',
+          'CREATE TABLE places (id TEXT PRIMARY KEY, title TEXT, image TEXT,'
+          'latitude REAL, longitude REAL, address TEXT)',
         );
       },
       version: 1,
@@ -23,6 +24,16 @@ class DBUtils {
       table,
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
+    );
+  }
+
+  static Future<void> remove(String table, String id) async {
+    final db = await DBUtils.database();
+
+    await db.delete(
+      table,
+      where: 'id = ?',
+      whereArgs: [id],
     );
   }
 

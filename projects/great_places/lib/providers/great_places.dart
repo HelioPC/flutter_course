@@ -17,17 +17,18 @@ class GreatPlaces extends ChangeNotifier {
   Future<void> loadPlaces() async {
     final data = await DBUtils.getData('places');
 
-    _list = data
-        .map(
-          (e) => Place(
-            id: e['id'],
-            title: e['title'],
-            location:
-                const PlaceLocation(latitude: 0, longitude: 0, address: ''),
-            image: File(e['image']),
-          ),
-        )
-        .toList();
+    _list = data.map((e) {
+      return Place(
+        id: e['id'],
+        title: e['title'],
+        image: File(e['image']),
+        location: PlaceLocation(
+          latitude: double.tryParse(e['latitude']) ?? 0,
+          longitude: double.tryParse(e['longitude']) ?? 0,
+          address: e['address'],
+        ),
+      );
+    }).toList();
 
     notifyListeners();
   }
@@ -54,6 +55,9 @@ class GreatPlaces extends ChangeNotifier {
         'id': newPlace.id,
         'title': newPlace.title,
         'image': newPlace.image.path,
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'address': address,
       },
     );
 
