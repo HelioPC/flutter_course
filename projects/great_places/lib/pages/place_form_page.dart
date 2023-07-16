@@ -75,6 +75,9 @@ class _PlaceFormPageState extends State<PlaceFormPage> {
                         decoration: const InputDecoration(
                           labelText: 'Title',
                         ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
                       ),
                       const SizedBox(height: 20),
                       ImageInput(onSelectImage: _setImage),

@@ -30,6 +30,7 @@ class PlacesListPage extends StatelessWidget {
               child: CircularProgressIndicator.adaptive(),
             );
           } else if (snap.hasError) {
+            debugPrint(snap.error.toString());
             return const Center(
               child: Text('Unexpected error occur'),
             );
@@ -47,16 +48,6 @@ class PlacesListPage extends StatelessWidget {
 
                     return ListTile(
                       onTap: () async {
-                        /*await showModalBottomSheet(
-                          showDragHandle: true,
-                          context: context,
-                          builder: (context) {
-                            return const Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [SizedBox(width: double.infinity)],
-                            );
-                          },
-                        );*/
                         Navigator.of(context)
                             .pushNamed(AppRoutes.DETAIL, arguments: place);
                       },

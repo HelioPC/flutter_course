@@ -29,8 +29,8 @@ class GreatPlaces extends ChangeNotifier {
         title: e['title'],
         image: File('${appDir.path}/$filename'),
         location: PlaceLocation(
-          latitude: double.tryParse(e['latitude']) ?? 0,
-          longitude: double.tryParse(e['longitude']) ?? 0,
+          latitude: double.tryParse(e['latitude'].toString()) ?? 0,
+          longitude: double.tryParse(e['longitude'].toString()) ?? 0,
           address: e['address'],
         ),
       );

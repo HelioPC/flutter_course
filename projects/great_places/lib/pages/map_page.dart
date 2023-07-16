@@ -31,7 +31,6 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(_pickedPosition != null && widget.isReadonly);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select custom location'),
