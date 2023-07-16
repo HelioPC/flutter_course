@@ -6,6 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:great_places/models/place.dart';
 import 'package:great_places/utils/db_utils.dart';
 import 'package:great_places/utils/location_utils.dart';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as syspath;
 
 class GreatPlaces extends ChangeNotifier {
   List<Place> _list = [];
@@ -17,11 +19,15 @@ class GreatPlaces extends ChangeNotifier {
   Future<void> loadPlaces() async {
     final data = await DBUtils.getData('places');
 
+    final appDir = await syspath.getApplicationDocumentsDirectory();
+
     _list = data.map((e) {
+      String filename = path.basename(e['image']);
+
       return Place(
         id: e['id'],
         title: e['title'],
-        image: File(e['image']),
+        image: File('${appDir.path}/$filename'),
         location: PlaceLocation(
           latitude: double.tryParse(e['latitude']) ?? 0,
           longitude: double.tryParse(e['longitude']) ?? 0,
