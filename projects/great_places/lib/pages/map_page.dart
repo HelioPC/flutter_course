@@ -37,9 +37,11 @@ class _MapPageState extends State<MapPage> {
         actions: [
           if (!widget.isReadonly)
             IconButton(
-              onPressed: _pickedPosition == null ? null : () {
-                Navigator.of(context).pop(_pickedPosition);
-              },
+              onPressed: _pickedPosition == null
+                  ? null
+                  : () {
+                      Navigator.of(context).pop(_pickedPosition);
+                    },
               icon: const Icon(Icons.check),
             )
         ],
@@ -51,10 +53,10 @@ class _MapPageState extends State<MapPage> {
         ),
         onTap: widget.isReadonly ? null : _selectPosition,
         markers: {
-          if (_pickedPosition != null)
+          if (_pickedPosition != null && !widget.isReadonly)
             Marker(
               markerId: const MarkerId('id'),
-              position: _pickedPosition!,
+              position: _pickedPosition ?? widget.location.toLatLng(),
             ),
         },
       ),

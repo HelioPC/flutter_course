@@ -47,7 +47,7 @@ class PlacesListPage extends StatelessWidget {
 
                     return ListTile(
                       onTap: () async {
-                        await showModalBottomSheet(
+                        /*await showModalBottomSheet(
                           showDragHandle: true,
                           context: context,
                           builder: (context) {
@@ -56,7 +56,9 @@ class PlacesListPage extends StatelessWidget {
                               children: [SizedBox(width: double.infinity)],
                             );
                           },
-                        );
+                        );*/
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.DETAIL, arguments: place);
                       },
                       leading: CircleAvatar(
                         backgroundImage: FileImage(place.image),

@@ -3,4 +3,5 @@
 class AppRoutes {
   static const String HOME = '/';
   static const String FORMROUTE = '/form';
+  static const String DETAIL = '/detail';
 }
