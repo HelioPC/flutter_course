@@ -54,7 +54,7 @@ class _MapPageState extends State<MapPage> {
         ),
         onTap: widget.isReadonly ? null : _selectPosition,
         markers: {
-          if (_pickedPosition != null && widget.isReadonly)
+          if (!(_pickedPosition == null && !widget.isReadonly))
             Marker(
               markerId: const MarkerId('id'),
               position: _pickedPosition ?? widget.location.toLatLng(),
