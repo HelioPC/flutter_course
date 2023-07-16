@@ -8,11 +8,13 @@ class PlaceDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final place = ModalRoute.of(context)?.settings.arguments as Place?;
+    bool isPlaceNull = place == null;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(place != null ? place.title : 'No details available'),
+        title: Text(isPlaceNull ? 'No details available' : place.title),
       ),
-      body: place != null
+      body: isPlaceNull
           ? const Center(
               child: Text('Internal error'),
             )
@@ -21,7 +23,7 @@ class PlaceDetailPage extends StatelessWidget {
                 SizedBox(
                   height: 250,
                   width: double.infinity,
-                  child: Image.file(place!.image, fit: BoxFit.cover),
+                  child: Image.file(place.image, fit: BoxFit.cover),
                 ),
                 const SizedBox(height: 10),
                 Text(
