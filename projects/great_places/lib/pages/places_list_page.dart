@@ -56,6 +56,13 @@ class PlacesListPage extends StatelessWidget {
                       ),
                       title: Text(place.title),
                       subtitle: Text(place.location.address),
+                      trailing: IconButton(
+                        onPressed: () async {
+                          Provider.of<GreatPlaces>(context, listen: false)
+                              .removePlace(place.id);
+                        },
+                        icon: const Icon(Icons.delete),
+                      ),
                     );
                   },
                 ),

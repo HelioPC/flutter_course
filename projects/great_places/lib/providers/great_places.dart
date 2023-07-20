@@ -69,4 +69,12 @@ class GreatPlaces extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void removePlace(String id) async {
+    await DBUtils.remove('places', id);
+
+    _list.removeWhere((p) => p.id == id);
+
+    notifyListeners();
+  }
 }
