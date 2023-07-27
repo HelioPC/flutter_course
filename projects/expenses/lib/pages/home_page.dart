@@ -62,6 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   _showTransactionFormModal() {
     showModalBottomSheet(
+      showDragHandle: true,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
