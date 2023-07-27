@@ -129,7 +129,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       body: Visibility(
         visible: !_isLoading,
         replacement: const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         ),
         child: Padding(
           padding: const EdgeInsets.all(18),

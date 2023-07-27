@@ -102,7 +102,7 @@ class _CartButtonState extends State<CartButton> {
         ),
         child: const Text('Comprar'),
       ),
-      child: const CircularProgressIndicator(),
+      child: const CircularProgressIndicator.adaptive(),
     );
   }
 }

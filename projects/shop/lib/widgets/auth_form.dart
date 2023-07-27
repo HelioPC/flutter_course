@@ -200,7 +200,7 @@ class _AuthFormState extends State<AuthForm>
               const SizedBox(height: 20),
               Visibility(
                 visible: !isLoading,
-                replacement: const CircularProgressIndicator(),
+                replacement: const CircularProgressIndicator.adaptive(),
                 child: CupertinoButton.filled(
                   onPressed: _submit,
                   borderRadius: BorderRadius.circular(30),

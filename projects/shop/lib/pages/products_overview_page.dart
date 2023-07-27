@@ -92,7 +92,7 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
         child: Visibility(
           visible: !_isLoading,
           replacement: const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           ),
           child: ProductsGrid(
             showFavoriteOnly: _showFavoriteOnly,

@@ -20,7 +20,7 @@ class AuthOrHomePage extends StatelessWidget {
                 ? const ProductsOverviewPage()
                 : const AuthPage();
           case ConnectionState.waiting:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator.adaptive());
           default:
             return const Center(
               child: Text('An error occur while getting orders'),
