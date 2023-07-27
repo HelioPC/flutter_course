@@ -25,6 +25,9 @@ class AdaptativeTextfield extends StatelessWidget {
       ),
       child: Platform.isIOS
           ? CupertinoTextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: controller,
               keyboardType: keyboardType,
               onSubmitted: onSubmitted,
@@ -35,6 +38,9 @@ class AdaptativeTextfield extends StatelessWidget {
               ),
             )
           : TextField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: controller,
               onSubmitted: onSubmitted,
               keyboardType: keyboardType,
