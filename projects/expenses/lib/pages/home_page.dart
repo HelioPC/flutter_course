@@ -167,42 +167,11 @@ class _HomePageState extends State<HomePage> {
           )
         : Scaffold(
             appBar: appBar,
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Switch.adaptive(
-                    value: _showCart,
-                    onChanged: (value) {
-                      setState(() {
-                        _showCart = value;
-                      });
-                    },
-                  ),
-                  if (_showCart || !isLandscape)
-                    SizedBox(
-                      height: availableHeight * (isLandscape ? .70 : .25),
-                      child: Chart(recentsTransactions: _recentsTransactions),
-                    ),
-                  if (!_showCart || !isLandscape)
-                    SizedBox(
-                      height: availableHeight * (isLandscape ? 1 : .70),
-                      child: TransactionsList(
-                        editTransaction: _editTransaction,
-                        transactions: _transactions,
-                        removeTransaction: _deleteTransaction,
-                      ),
-                    ),
-                ],
-              ),
+            body: page,
+            floatingActionButton: FloatingActionButton(
+              onPressed: _showTransactionFormModal,
+              child: const Icon(Icons.add),
             ),
-            floatingActionButton: Platform.isIOS
-                ? null
-                : FloatingActionButton(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    onPressed: _showTransactionFormModal,
-                    child: const Icon(Icons.add),
-                  ),
           );
   }
 }
