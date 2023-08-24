@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  loading_animation_widget: ^1.2.0+4
+  validatorless: ^1.2.3
 
 dev_dependencies:
   flutter_test:
