@@ -42,59 +42,33 @@ class _TransactionItemState extends State<TransactionItem> {
 
   void _removeTransaction() {
     HapticFeedback.heavyImpact();
-    Platform.isIOS
-        ? showCupertinoModalPopup(
-            context: context,
-            builder: (context) {
-              return CupertinoActionSheet(
-                title: const Text('Delete'),
-                message:
-                    Text('Transaction \'${widget.tr.title}\' will be deleted'),
-                actions: [
-                  CupertinoActionSheetAction(
-                    isDestructiveAction: true,
-                    onPressed: () {
-                      widget.removeTransaction(widget.tr.id);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Confirm'),
-                  ),
-                  CupertinoActionSheetAction(
-                    isDefaultAction: true,
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancel'),
-                  ),
-                ],
-              );
-            },
-          )
-        : showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Delete'),
-                content: Text(
-                  'Transaction \'${widget.tr.title}\' will be deleted',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      widget.removeTransaction(widget.tr.id);
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Confirm'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
+    showAdaptiveDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          title: const Text('Delete'),
+          content: Text(
+            'Transaction \'${widget.tr.title}\' will be deleted',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                widget.removeTransaction(widget.tr.id);
+                Navigator.pop(context);
+              },
+              child: const Text('Confirm'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   _showTransactionFormModal() {
