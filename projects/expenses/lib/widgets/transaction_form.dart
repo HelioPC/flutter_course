@@ -1,28 +1,20 @@
+import 'dart:math';
+
+import 'package:expenses/models/transaction.dart';
+import 'package:expenses/models/transaction_list.dart';
 import 'package:expenses/widgets/adaptative_button.dart';
 import 'package:expenses/widgets/adaptative_date_picker.dart';
 import 'package:expenses/widgets/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransactionForm extends StatefulWidget {
   const TransactionForm({
     super.key,
-    required this.action,
-    this.title,
-    this.value,
-    this.date,
-    this.id,
+    this.transaction,
   });
 
-  final String? id;
-  final String? title;
-  final double? value;
-  final DateTime? date;
-  final void Function(
-    String? id,
-    String title,
-    double value,
-    DateTime date,
-  ) action;
+  final Transaction? transaction;
 
   @override
   State<TransactionForm> createState() => _TransactionFormState();
@@ -43,14 +35,36 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.action(widget.id, title, value, _selectedDate);
+    if (widget.transaction != null) {
+      Provider.of<TransactionList>(context, listen: false).update(
+        Transaction(
+          id: widget.transaction!.id,
+          title: title,
+          value: value,
+          date: _selectedDate,
+        ),
+      );
+    } else {
+      Provider.of<TransactionList>(context, listen: false).add(
+        Transaction(
+          id: Random().nextDouble().toString(),
+          title: title,
+          value: value,
+          date: _selectedDate,
+        ),
+      );
+    }
+
+    Navigator.of(context).pop();
   }
 
   @override
   void initState() {
-    _titleController.text = widget.title ?? '';
-    _valueController.text = widget.value != null ? widget.value.toString() : '';
-    _selectedDate = widget.date ?? DateTime.now();
+    _titleController.text = widget.transaction?.title ?? '';
+    _valueController.text = widget.transaction?.value != null
+        ? widget.transaction!.value.toString()
+        : '';
+    _selectedDate = widget.transaction?.date ?? DateTime.now();
     super.initState();
   }
 
@@ -96,7 +110,8 @@ class _TransactionFormState extends State<TransactionForm> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               AdaptativeButton(
-                text: widget.id != null ? 'Save' : 'New transaction',
+                text:
+                    widget.transaction?.id != null ? 'Save' : 'New transaction',
                 onPressed: _handleAction,
               ),
             ],

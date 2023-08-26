@@ -1,27 +1,18 @@
+import 'package:expenses/models/transaction_list.dart';
 import 'package:expenses/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
-import 'package:expenses/models/transaction.dart';
+import 'package:provider/provider.dart';
 
-class TransactionsList extends StatelessWidget {
-  const TransactionsList({
+class TransactionsOverview extends StatelessWidget {
+  const TransactionsOverview({
     super.key,
-    required List<Transaction> transactions,
-    required this.removeTransaction,
-    required this.editTransaction,
-  }) : _transactions = transactions;
-
-  final List<Transaction> _transactions;
-  final void Function(String) removeTransaction;
-  final void Function(
-    String? id,
-    String title,
-    double value,
-    DateTime date,
-  ) editTransaction;
+  });
 
   @override
   Widget build(BuildContext context) {
-    return _transactions.isEmpty
+    final transactions = Provider.of<TransactionList>(context).items;
+
+    return transactions.isEmpty
         ? LayoutBuilder(
             builder: (context, constraints) {
               return Center(
@@ -34,14 +25,12 @@ class TransactionsList extends StatelessWidget {
           )
         : ListView.separated(
             separatorBuilder: (context, index) => const Divider(),
-            itemCount: _transactions.length,
+            itemCount: transactions.length,
             itemBuilder: (context, index) {
-              final tr = _transactions.elementAt(index);
+              final tr = transactions.elementAt(index);
               return TransactionItem(
                 key: GlobalObjectKey(tr.id),
                 tr: tr,
-                removeTransaction: removeTransaction,
-                editTransaction: editTransaction,
               );
             },
           );

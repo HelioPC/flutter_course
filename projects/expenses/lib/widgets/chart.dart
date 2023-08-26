@@ -1,14 +1,16 @@
 import 'package:expenses/models/transaction.dart';
+import 'package:expenses/models/transaction_list.dart';
 import 'package:expenses/widgets/chart_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Chart extends StatelessWidget {
-  const Chart({super.key, required this.recentsTransactions});
+  const Chart({super.key});
 
-  final List<Transaction> recentsTransactions;
-
-  List<Map<String, Object>> get groupedTransactions {
+  List<Map<String, Object>> groupedTransactions(
+    List<Transaction> recentsTransactions,
+  ) {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(Duration(days: index));
 
@@ -27,26 +29,30 @@ class Chart extends StatelessWidget {
     }).reversed.toList();
   }
 
-  double get _totalValue {
-    return groupedTransactions.fold(0, (a, b) => a + (b['value'] as double));
+  double _totalValue(List<Transaction> transactions) {
+    return groupedTransactions(transactions)
+        .fold(0, (a, b) => a + (b['value'] as double));
   }
 
   @override
   Widget build(BuildContext context) {
+    final recentsTransactions =
+        Provider.of<TransactionList>(context).mostRecents;
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(20),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
-          children: groupedTransactions
+          children: groupedTransactions(recentsTransactions)
               .map((e) => Flexible(
                     fit: FlexFit.tight,
                     child: ChartBar(
                       label: e['day'] as String,
                       value: e['value'] as double,
-                      percentage: _totalValue > 0
-                          ? (e['value'] as double) / _totalValue
+                      percentage: _totalValue(recentsTransactions) > 0
+                          ? (e['value'] as double) /
+                              _totalValue(recentsTransactions)
                           : 0,
                     ),
                   ))
