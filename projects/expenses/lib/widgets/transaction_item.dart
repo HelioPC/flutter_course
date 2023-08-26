@@ -45,19 +45,19 @@ class _TransactionItemState extends State<TransactionItem> {
           ),
           actions: [
             TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
+            TextButton(
               onPressed: () {
                 Provider.of<TransactionList>(context, listen: false)
                     .delete(widget.tr.id);
                 Navigator.pop(context);
               },
               child: const Text('Confirm'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.red),
-              ),
             ),
           ],
         );

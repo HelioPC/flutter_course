@@ -10,10 +10,46 @@ class TransactionsOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final transactions = Provider.of<TransactionList>(context).items;
+    return FutureBuilder(
+      future: Provider.of<TransactionList>(
+        context,
+        listen: false,
+      ).loadTransactions(),
+      builder: (context, snap) {
+        if (snap.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snap.hasError) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return Center(
+                child: Text(
+                  'Error getting transactions',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              );
+            },
+          );
+        }
 
-    return transactions.isEmpty
-        ? LayoutBuilder(
+        return Consumer<TransactionList>(
+          builder: (context, value, child) => Visibility(
+            visible: value.items.isNotEmpty,
+            replacement: child!,
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: value.items.length,
+              itemBuilder: (context, index) {
+                final tr = value.items.elementAt(index);
+                return TransactionItem(
+                  key: GlobalObjectKey(tr.id),
+                  tr: tr,
+                );
+              },
+            ),
+          ),
+          child: LayoutBuilder(
             builder: (context, constraints) {
               return Center(
                 child: Text(
@@ -22,17 +58,9 @@ class TransactionsOverview extends StatelessWidget {
                 ),
               );
             },
-          )
-        : ListView.separated(
-            separatorBuilder: (context, index) => const Divider(),
-            itemCount: transactions.length,
-            itemBuilder: (context, index) {
-              final tr = transactions.elementAt(index);
-              return TransactionItem(
-                key: GlobalObjectKey(tr.id),
-                tr: tr,
-              );
-            },
-          );
+          ),
+        );
+      },
+    );
   }
 }
