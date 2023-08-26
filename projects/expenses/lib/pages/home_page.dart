@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:math';
-
-import 'package:expenses/models/transaction.dart';
 import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/transaction_form.dart';
-import 'package:expenses/widgets/transactions_list.dart';
+import 'package:expenses/widgets/transactions_overview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,49 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Transaction> _transactions = [];
   bool _showCart = true;
-
-  _addTransaction(_, String title, double value, DateTime date) {
-    final newTransaction = Transaction(
-      id: Random().nextDouble().toString(),
-      title: title,
-      value: value,
-      date: date,
-    );
-
-    setState(() {
-      _transactions.add(newTransaction);
-    });
-
-    Navigator.of(context).pop();
-  }
-
-  _editTransaction(String? id, String title, double value, DateTime date) {
-    Transaction? transaction;
-    try {
-      transaction = _transactions.firstWhere((tr) => tr.id == id);
-    } catch (e) {
-      Navigator.of(context).pop();
-      return;
-    }
-
-    setState(() {
-      if (transaction != null) {
-        transaction.title = title;
-        transaction.value = value;
-        transaction.date = date;
-      }
-    });
-
-    Navigator.of(context).pop();
-  }
-
-  _deleteTransaction(String id) {
-    setState(() {
-      _transactions.removeWhere((element) => element.id == id);
-    });
-  }
 
   _showTransactionFormModal() {
     showModalBottomSheet(
@@ -67,15 +22,9 @@ class _HomePageState extends State<HomePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       context: context,
       builder: (context) {
-        return TransactionForm(action: _addTransaction);
+        return const TransactionForm();
       },
     );
-  }
-
-  List<Transaction> get _recentsTransactions {
-    return _transactions.where((t) {
-      return t.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
-    }).toList();
   }
 
   Widget _getIconButton(IconData icon, Function() fn) {
@@ -138,16 +87,12 @@ class _HomePageState extends State<HomePage> {
             if (_showCart || !isLandscape)
               SizedBox(
                 height: availableHeight * (isLandscape ? .70 : .25),
-                child: Chart(recentsTransactions: _recentsTransactions),
+                child: const Chart(),
               ),
             if (!_showCart || !isLandscape)
               SizedBox(
                 height: availableHeight * (isLandscape ? 1 : .70),
-                child: TransactionsList(
-                  editTransaction: _editTransaction,
-                  transactions: _transactions,
-                  removeTransaction: _deleteTransaction,
-                ),
+                child: const TransactionsOverview(),
               ),
           ],
         ),

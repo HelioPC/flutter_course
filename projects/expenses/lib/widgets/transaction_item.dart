@@ -1,29 +1,22 @@
 import 'dart:io';
 
 import 'package:expenses/models/transaction.dart';
+import 'package:expenses/models/transaction_list.dart';
 import 'package:expenses/widgets/transaction_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
     super.key,
     required this.tr,
-    required this.removeTransaction,
-    required this.editTransaction,
   });
 
   final Transaction tr;
-  final void Function(String p1) removeTransaction;
-  final void Function(
-    String? id,
-    String title,
-    double value,
-    DateTime date,
-  ) editTransaction;
 
   @override
   State<TransactionItem> createState() => _TransactionItemState();
@@ -53,7 +46,8 @@ class _TransactionItemState extends State<TransactionItem> {
           actions: [
             TextButton(
               onPressed: () {
-                widget.removeTransaction(widget.tr.id);
+                Provider.of<TransactionList>(context, listen: false)
+                    .delete(widget.tr.id);
                 Navigator.pop(context);
               },
               child: const Text('Confirm'),
@@ -78,11 +72,7 @@ class _TransactionItemState extends State<TransactionItem> {
       context: context,
       builder: (context) {
         return TransactionForm(
-          id: widget.tr.id,
-          title: widget.tr.title,
-          value: widget.tr.value,
-          date: widget.tr.date,
-          action: widget.editTransaction,
+          transaction: widget.tr,
         );
       },
     );
@@ -114,7 +104,10 @@ class _TransactionItemState extends State<TransactionItem> {
       endActionPane: ActionPane(
         motion: const BehindMotion(),
         dismissible: DismissiblePane(onDismissed: () {
-          widget.removeTransaction(widget.tr.id);
+          Provider.of<TransactionList>(
+            context,
+            listen: false,
+          ).delete(widget.tr.id);
         }),
         children: [
           SlidableAction(
