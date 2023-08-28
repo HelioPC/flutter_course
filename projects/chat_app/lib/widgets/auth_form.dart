@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:chat_app/model/auth_form_data.dart';
+import 'package:chat_app/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:validatorless/validatorless.dart';
@@ -24,9 +27,25 @@ class _AuthFormState extends State<AuthForm> {
 
     if (!isValid) return;
 
+    if (_formData.image == null && !_formData.isLogin) {
+      return _showError('No profile picture was selected');
+    }
+
     await widget.onSubmit(_formData);
 
     setState(() => _isLoading = false);
+  }
+
+  void _handleImagePick(File image) {
+    _formData.newImage = image;
+  }
+
+  void _showError(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(msg),
+      ),
+    );
   }
 
   @override
@@ -39,7 +58,10 @@ class _AuthFormState extends State<AuthForm> {
           key: _formKey,
           child: Column(
             children: [
-              if (!_formData.isLogin)
+              if (!_formData.isLogin) ...[
+                UserImagePicker(
+                  onImagePick: _handleImagePick,
+                ),
                 TextFormField(
                   enabled: !_isLoading,
                   key: const ValueKey('name'),
@@ -61,6 +83,7 @@ class _AuthFormState extends State<AuthForm> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
+              ],
               TextFormField(
                 enabled: !_isLoading,
                 key: const ValueKey('email'),
@@ -83,7 +106,7 @@ class _AuthFormState extends State<AuthForm> {
                 initialValue: _formData.password,
                 onChanged: (password) => _formData.newPassword = password,
                 decoration: const InputDecoration(
-                  labelText: 'Senha',
+                  labelText: 'Password',
                 ),
                 obscureText: true,
                 validator: (value) {
@@ -110,7 +133,7 @@ class _AuthFormState extends State<AuthForm> {
                   children: [
                     ElevatedButton(
                       onPressed: _submit,
-                      child: Text(_formData.isLogin ? 'Entrar' : 'Submeter'),
+                      child: Text(_formData.isLogin ? 'Enter' : 'Submit'),
                     ),
                     TextButton(
                       onPressed: () {
@@ -120,8 +143,8 @@ class _AuthFormState extends State<AuthForm> {
                       },
                       child: Text(
                         _formData.isLogin
-                            ? 'Criar uma nova conta'
-                            : 'Já possui uma conta?',
+                            ? 'Create a new account'
+                            : 'Already have an account?',
                       ),
                     ),
                   ],

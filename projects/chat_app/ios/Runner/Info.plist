@@ -47,5 +47,11 @@
 	<true/>
 	<key>FLTEnableImpeller</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Need a photo for your profile</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need a photo for your profile</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>To send audio messages</string>
 </dict>
 </plist>
