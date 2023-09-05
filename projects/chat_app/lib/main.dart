@@ -1,4 +1,5 @@
-import 'package:chat_app/pages/auth_page.dart';
+import 'package:chat_app/pages/auth_or_app_page.dart';
+// import 'package:chat_app/pages/auth_page.dart';
 // import 'package:chat_app/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: AuthPage(),
+      home: AuthOrAppPage(),
     );
   }
 }

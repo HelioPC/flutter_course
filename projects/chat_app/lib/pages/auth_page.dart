@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:chat_app/model/auth_form_data.dart';
+import 'package:chat_app/services/auth/auth_service_impl.dart';
 import 'package:chat_app/widgets/auth_form.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +12,22 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   Future<void> _submit(AuthFormData data) async {
-    await Future.delayed(const Duration(seconds: 5));
-    log(data.toString());
+    try {
+      if (data.isLogin) {
+        await AuthServiceImpl().login(data.email, data.password);
+      } else {
+        await AuthServiceImpl().signup(
+          data.email,
+          data.password,
+          data.name,
+          data.image,
+        );
+      }
+
+      debugPrint(data.toString());
+    } catch (error) {
+      debugPrint('');
+    } finally {}
   }
 
   @override
