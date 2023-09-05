@@ -1,4 +1,4 @@
-import 'package:chat_app/services/auth/auth_service_impl.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class ChatPage extends StatelessWidget {
@@ -18,7 +18,7 @@ class ChatPage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                AuthServiceImpl().logout();
+                AuthService().logout();
               },
               child: const Text('Logout'),
             )

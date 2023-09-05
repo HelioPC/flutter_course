@@ -6,13 +6,21 @@ import 'package:chat_app/model/chat_user.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 
 class AuthServiceImpl implements AuthService {
-  static final Map<String, ChatUser> _users = {};
+  static final Map<String, ChatUser> _users = {
+    _defaultUser.email: _defaultUser,
+  };
   static ChatUser? _currentUser;
   static MultiStreamController<ChatUser?>? _controller;
   static final _userStream = Stream<ChatUser?>.multi((controller) {
     _controller = controller;
-    _updateUser(null);
+    _updateUser(_defaultUser);
   });
+  static final _defaultUser = ChatUser(
+    id: '1',
+    name: 'Hélio',
+    email: 'helio@chat.com',
+    image: 'assets/images/avatar.png',
+  );
 
   static void _updateUser(ChatUser? user) {
     _currentUser = user;

@@ -1,5 +1,5 @@
 import 'package:chat_app/model/auth_form_data.dart';
-import 'package:chat_app/services/auth/auth_service_impl.dart';
+import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:chat_app/widgets/auth_form.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +14,9 @@ class _AuthPageState extends State<AuthPage> {
   Future<void> _submit(AuthFormData data) async {
     try {
       if (data.isLogin) {
-        await AuthServiceImpl().login(data.email, data.password);
+        await AuthService().login(data.email, data.password);
       } else {
-        await AuthServiceImpl().signup(
+        await AuthService().signup(
           data.email,
           data.password,
           data.name,
