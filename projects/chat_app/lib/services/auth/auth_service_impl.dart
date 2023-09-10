@@ -16,7 +16,7 @@ class AuthServiceImpl implements AuthService {
     _updateUser(_defaultUser);
   });
   static final _defaultUser = ChatUser(
-    id: '1',
+    id: '123',
     name: 'Hélio',
     email: 'helio@chat.com',
     image: 'assets/images/avatar.png',

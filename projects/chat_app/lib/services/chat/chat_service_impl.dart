@@ -12,7 +12,7 @@ class ChatServiceImpl implements ChatService {
       text: 'text',
       createdAt: DateTime.now(),
       userId: '123',
-      userName: 'Rodrigo',
+      userName: 'Hélio',
       userImageUrl: 'assets/images/avatar.png',
     ),
     ChatMessage(
