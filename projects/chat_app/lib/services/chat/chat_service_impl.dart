@@ -6,32 +6,7 @@ import 'package:chat_app/model/chat_user.dart';
 import 'package:chat_app/services/chat/chat_service.dart';
 
 class ChatServiceImpl implements ChatService {
-  static final List<ChatMessage> _msgs = [
-    ChatMessage(
-      id: '1',
-      text: 'text',
-      createdAt: DateTime.now(),
-      userId: '123',
-      userName: 'Hélio',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-    ChatMessage(
-      id: '2',
-      text: 'text',
-      createdAt: DateTime.now(),
-      userId: '456',
-      userName: 'André',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-    ChatMessage(
-      id: '3',
-      text: 'text',
-      createdAt: DateTime.now(),
-      userId: '789',
-      userName: 'Bruno',
-      userImageUrl: 'assets/images/avatar.png',
-    ),
-  ];
+  static final List<ChatMessage> _msgs = [];
   static MultiStreamController<List<ChatMessage>>? _controller;
   static final _msgStream = Stream<List<ChatMessage>>.multi((p0) {
     _controller = p0;
@@ -55,7 +30,7 @@ class ChatServiceImpl implements ChatService {
     );
 
     _msgs.add(newMessage);
-    _controller?.add(_msgs);
+    _controller?.add(_msgs.reversed.toList());
 
     return newMessage;
   }
