@@ -1,8 +1,6 @@
 import 'package:chat_app/pages/auth_or_app_page.dart';
 import 'package:chat_app/services/notification/chat_notification_service.dart';
 
-// import 'package:chat_app/pages/auth_page.dart';
-// import 'package:chat_app/pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

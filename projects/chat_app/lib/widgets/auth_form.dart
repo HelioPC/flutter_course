@@ -75,6 +75,8 @@ class _AuthFormState extends State<AuthForm> {
                   decoration: const InputDecoration(
                     labelText: 'Nome',
                   ),
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     final name = value ?? '';
 
@@ -97,6 +99,7 @@ class _AuthFormState extends State<AuthForm> {
                 decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
+                textInputAction: TextInputAction.next,
                 validator: Validatorless.multiple([
                   Validatorless.required('Required field'),
                   Validatorless.email('Invalid email'),
@@ -114,6 +117,7 @@ class _AuthFormState extends State<AuthForm> {
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
+                textInputAction: TextInputAction.done,
                 obscureText: true,
                 validator: (value) {
                   final password = value ?? '';

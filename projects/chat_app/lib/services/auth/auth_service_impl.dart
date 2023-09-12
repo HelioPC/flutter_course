@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:chat_app/model/chat_user.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -52,19 +53,21 @@ class AuthServiceImpl implements AuthService {
     final imageName = '${credential.user!.uid}.jpg';
     final imageUrl = await _uploadImage(image, imageName);
 
-    credential.user?.updateDisplayName(name);
-    credential.user?.updatePhotoURL(imageUrl);
+    await credential.user?.updateDisplayName(name);
+    await credential.user?.updatePhotoURL(imageUrl);
+
+    await _saveChatUser(_toChatUser(credential.user!, imageUrl));
   }
 
   @override
   Stream<ChatUser?> get userChanges => _userStream;
 
-  static ChatUser _toChatUser(User user) {
+  static ChatUser _toChatUser(User user, [String? image]) {
     return ChatUser(
       id: user.uid,
       name: user.displayName ?? user.email!.split('@')[0],
       email: user.email!,
-      image: user.photoURL ?? 'assets/images/avatar.png',
+      image: image ?? user.photoURL ?? 'assets/images/avatar.png',
     );
   }
 
@@ -77,5 +80,16 @@ class AuthServiceImpl implements AuthService {
     await imageRef.putFile(image).whenComplete(() {});
 
     return await imageRef.getDownloadURL();
+  }
+
+  Future<void> _saveChatUser(ChatUser user) async {
+    final store = FirebaseFirestore.instance;
+    final docRef = store.collection('users').doc(user.id);
+
+    await docRef.set({
+      'name': user.name,
+      'email': user.email,
+      'image': user.image,
+    });
   }
 }
