@@ -13,6 +13,8 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   Future<void> _submit(AuthFormData data) async {
     try {
+      if (!context.mounted) return;
+
       if (data.isLogin) {
         await AuthService().login(data.email, data.password);
       } else {

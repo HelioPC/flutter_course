@@ -25,13 +25,18 @@ class _AuthFormState extends State<AuthForm> {
 
     final isValid = _formKey.currentState?.validate() ?? false;
 
-    if (!isValid) return;
+    if (!isValid) {
+      setState(() => _isLoading = false);
+      return;
+    }
 
     if (_formData.image == null && !_formData.isLogin) {
       return _showError('No profile picture was selected');
     }
 
     await widget.onSubmit(_formData);
+
+    if (!mounted) return;
 
     setState(() => _isLoading = false);
   }
@@ -66,7 +71,7 @@ class _AuthFormState extends State<AuthForm> {
                   enabled: !_isLoading,
                   key: const ValueKey('name'),
                   initialValue: _formData.name,
-                  onChanged: (name) => _formData.newName = name,
+                  onChanged: (name) => _formData.newName = name.trim(),
                   decoration: const InputDecoration(
                     labelText: 'Nome',
                   ),
@@ -88,7 +93,7 @@ class _AuthFormState extends State<AuthForm> {
                 enabled: !_isLoading,
                 key: const ValueKey('email'),
                 initialValue: _formData.email,
-                onChanged: (email) => _formData.newEmail = email,
+                onChanged: (email) => _formData.newEmail = email.trim(),
                 decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
@@ -104,7 +109,8 @@ class _AuthFormState extends State<AuthForm> {
                 enabled: !_isLoading,
                 key: const ValueKey('password'),
                 initialValue: _formData.password,
-                onChanged: (password) => _formData.newPassword = password,
+                onChanged: (password) =>
+                    _formData.newPassword = password.trim(),
                 decoration: const InputDecoration(
                   labelText: 'Password',
                 ),
