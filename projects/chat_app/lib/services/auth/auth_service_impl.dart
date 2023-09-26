@@ -5,6 +5,7 @@ import 'package:chat_app/model/chat_user.dart';
 import 'package:chat_app/services/auth/auth_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthServiceImpl implements AuthService {
@@ -41,31 +42,45 @@ class AuthServiceImpl implements AuthService {
     String name,
     File? image,
   ) async {
-    final auth = FirebaseAuth.instance;
+    final signup = await Firebase.initializeApp(
+      name: 'userSignup',
+      options: Firebase.app().options,
+    );
+
+    final auth = FirebaseAuth.instanceFor(app: signup);
 
     UserCredential credential = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
-    if (credential.user == null) return;
+    if (credential.user != null) {
+      // 1. Upload da foto do usuário
+      final imageName = '${credential.user!.uid}.jpg';
+      final imageUrl = await _uploadImage(image, imageName);
 
-    final imageName = '${credential.user!.uid}.jpg';
-    final imageUrl = await _uploadImage(image, imageName);
+      // 2. atualizar os atributos do usuário
+      await credential.user?.updateDisplayName(name);
+      await credential.user?.updatePhotoURL(imageUrl);
 
-    await credential.user?.updateDisplayName(name);
-    await credential.user?.updatePhotoURL(imageUrl);
+      // 2.5 fazer o login do usuário
+      await login(email, password);
 
-    await _saveChatUser(_toChatUser(credential.user!, imageUrl));
+      // 3. salvar usuário no banco de dados (opcional)
+      _currentUser = _toChatUser(credential.user!, name, imageUrl);
+      await _saveChatUser(_currentUser!);
+    }
+
+    await signup.delete();
   }
 
   @override
   Stream<ChatUser?> get userChanges => _userStream;
 
-  static ChatUser _toChatUser(User user, [String? image]) {
+  static ChatUser _toChatUser(User user, [String? name, String? image]) {
     return ChatUser(
       id: user.uid,
-      name: user.displayName ?? user.email!.split('@')[0],
+      name: name ?? user.displayName ?? user.email!.split('@')[0],
       email: user.email!,
       image: image ?? user.photoURL ?? 'assets/images/avatar.png',
     );
