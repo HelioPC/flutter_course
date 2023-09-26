@@ -41,8 +41,7 @@ class _NewMessageState extends State<NewMessage> {
               decoration: const InputDecoration(
                 contentPadding: EdgeInsets.all(16.0),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(25))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(25))),
                 hintText: 'Send something...',
               ),
               textInputAction: TextInputAction.send,
