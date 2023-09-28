@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 
 class ChatNotificationService with ChangeNotifier {
-  List<ChatNotification> _list = [];
+  final List<ChatNotification> _list = [];
 
   List<ChatNotification> get items => [..._list];
 

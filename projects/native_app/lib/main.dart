@@ -64,6 +64,7 @@ class _MainAppState extends State<MainApp> {
             children: [
               Center(
                 child: Card(
+                  elevation: 16,
                   child: Padding(
                     padding: const EdgeInsets.all(14),
                     child: Text(
@@ -123,6 +124,9 @@ class _MainAppState extends State<MainApp> {
                           _num1Controller.clear();
                           _num2Controller.clear();
                         }
+                        setState(() {
+                          _sum = 0;
+                        });
                       },
                       child: const Text('Clear'),
                     ),
