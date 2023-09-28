@@ -26,15 +26,34 @@ class _MainAppState extends State<MainApp> {
       setState(() => _isLoading = false);
       return;
     }
+
+    final num1 = int.tryParse(_num1Controller.text) ?? 0;
+    final num2 = int.tryParse(_num2Controller.text) ?? 0;
+
     debugPrint(
-      'num 1: ${_num1Controller.text} | num 2: ${_num2Controller.text}',
+      'num 1: $num1 | num 2: $num2',
     );
 
-    setState(() {
-      _sum = (int.tryParse(_num1Controller.text) ?? 0) +
-          (int.tryParse(_num2Controller.text) ?? 0);
-      _isLoading = false;
-    });
+    const channel = MethodChannel('native/sum');
+
+    try {
+      final sum = await channel.invokeMethod(
+        'sum',
+        {'num1': num1, 'num2': num2},
+      );
+
+      debugPrint('sum: $sum');
+
+      setState(() {
+        _sum = sum;
+        _isLoading = false;
+      });
+    } on PlatformException {
+      setState(() {
+        _sum = -999;
+        _isLoading = false;
+      });
+    }
   }
 
   @override
