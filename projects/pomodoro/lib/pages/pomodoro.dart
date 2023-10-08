@@ -1,25 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:pomodoro/store/pomodoro.store.dart';
 import 'package:pomodoro/widgets/cronometer.dart';
 import 'package:pomodoro/widgets/time_field.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class Pomodoro extends StatelessWidget {
   const Pomodoro({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final store = Provider.of<PomodoroStore>(context);
+
+    return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(child: Cronometer()),
+          const Expanded(child: Cronometer()),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 40),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TimeField(value: 25, title: 'Trabalho'),
-                TimeField(value: 5, title: 'Descanso'),
-              ],
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Observer(
+              builder: (_) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    TimeField(
+                      inc: store.increaseWorkTime,
+                      dec: store.decreaseWorkTime,
+                      value: store.workTime,
+                      title: 'Trabalho',
+                    ),
+                    TimeField(
+                      inc: store.increaseRestTime,
+                      dec: store.decreaseRestTime,
+                      value: store.restTime,
+                      title: 'Descanso',
+                    ),
+                  ],
+                );
+              },
             ),
           )
         ],
