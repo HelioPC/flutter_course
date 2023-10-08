@@ -67,6 +67,7 @@ abstract class _PomodoroStore with Store {
 
   @action
   void decreaseWorkTime() {
+    if (workTime == 1) return;
     workTime--;
     if (isWork()) {
       restart();
@@ -83,6 +84,7 @@ abstract class _PomodoroStore with Store {
 
   @action
   void decreaseRestTime() {
+    if (restTime == 1) return;
     restTime--;
     if (isRest()) {
       restart();
