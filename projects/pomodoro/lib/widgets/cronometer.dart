@@ -16,19 +16,23 @@ class Cronometer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Hora de ${store.isWork() ? 'trabalhar' : 'descansar'}',
-            style: const TextStyle(fontSize: 40),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            '${store.min.toString().padLeft(2, '0')}'
-            ':${store.sec.toString().padLeft(2, '0')}',
-            style: const TextStyle(fontSize: 120),
+          Observer(
+            builder: (_) => Text(
+              'Hora de ${store.isWork() ? 'trabalhar' : 'descansar'}',
+              style: const TextStyle(fontSize: 40),
+            ),
           ),
           const SizedBox(height: 20),
           Observer(
-            builder: (context) => Row(
+            builder: (_) => Text(
+              '${store.min.toString().padLeft(2, '0')}'
+              ':${store.sec.toString().padLeft(2, '0')}',
+              style: const TextStyle(fontSize: 120),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Observer(
+            builder: (_) => Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Visibility(

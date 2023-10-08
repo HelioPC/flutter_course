@@ -25,14 +25,22 @@ class Pomodoro extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TimeField(
-                      inc: store.increaseWorkTime,
-                      dec: store.decreaseWorkTime,
+                      inc: store.isWork() && store.started
+                          ? null
+                          : store.increaseWorkTime,
+                      dec: store.isWork() && store.started
+                          ? null
+                          : store.decreaseWorkTime,
                       value: store.workTime,
                       title: 'Trabalho',
                     ),
                     TimeField(
-                      inc: store.increaseRestTime,
-                      dec: store.decreaseRestTime,
+                      inc: store.isRest() && store.started
+                          ? null
+                          : store.increaseRestTime,
+                      dec: store.isRest() && store.started
+                          ? null
+                          : store.decreaseRestTime,
                       value: store.restTime,
                       title: 'Descanso',
                     ),
